@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   GAME_WIDTH,
   PLAYER_WIDTH,
@@ -10,48 +10,64 @@ import {
 } from "../constants";
 
 function useGameLoop(setGameOver, setScore) {
-  const [playerX, setPlayerX] = useState(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
+  const playerXRef = useRef(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
+  const [playerX, setPlayerX] = useState(playerXRef.current);
+  const playerVelocityRef = useRef(0);
   const [enemies, setEnemies] = useState([]);
   const [plates, setPlates] = useState([]);
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalCalories, setTotalCalories] = useState(0);
 
   const movePlayer = useCallback((direction) => {
-    setPlayerX((prevX) => {
-      const newX = prevX + direction * 20;
-      return Math.max(0, Math.min(GAME_WIDTH - PLAYER_WIDTH, newX));
-    });
+    playerVelocityRef.current = direction * 5;
+  }, []);
+
+  const stopPlayer = useCallback(() => {
+    playerVelocityRef.current = 0;
   }, []);
 
   const shootPlate = useCallback(() => {
     setPlates((prevPlates) => [
       ...prevPlates,
       {
-        x: playerX + PLAYER_WIDTH / 2 - PLATE_SIZE / 2,
+        x: playerXRef.current + PLAYER_WIDTH / 2 - PLATE_SIZE / 2,
         y: GAME_HEIGHT - PLAYER_HEIGHT - PLATE_SIZE,
       },
     ]);
-  }, [playerX]);
+  }, []);
+
+  const updatePlayerPosition = useCallback(() => {
+    const newX = Math.max(
+      0,
+      Math.min(
+        GAME_WIDTH - PLAYER_WIDTH,
+        playerXRef.current + playerVelocityRef.current
+      )
+    );
+    playerXRef.current = newX;
+    setPlayerX(newX);
+  }, []);
 
   useEffect(() => {
     const gameLoop = setInterval(() => {
-      setEnemies((prevEnemies) => {
-        return prevEnemies.filter((enemy) => {
+      updatePlayerPosition();
+
+      setEnemies((prevEnemies) =>
+        prevEnemies.filter((enemy) => {
           enemy.y += 2;
           return enemy.y < GAME_HEIGHT;
-        });
-      });
+        })
+      );
 
-      setPlates((prevPlates) => {
-        return prevPlates.filter((plate) => {
+      setPlates((prevPlates) =>
+        prevPlates.filter((plate) => {
           plate.y -= 5;
           return plate.y > -PLATE_SIZE;
-        });
-      });
+        })
+      );
 
-      // 衝突判定
-      setEnemies((prevEnemies) => {
-        return prevEnemies.filter((enemy) => {
+      setEnemies((prevEnemies) =>
+        prevEnemies.filter((enemy) => {
           const collisionWithPlate = plates.some(
             (plate) =>
               plate.x < enemy.x + ENEMY_SIZE &&
@@ -60,7 +76,12 @@ function useGameLoop(setGameOver, setScore) {
               plate.y + PLATE_SIZE > enemy.y
           );
 
-          if (collisionWithPlate) {
+          const collisionWithPlayer =
+            enemy.x < playerXRef.current + PLAYER_WIDTH &&
+            enemy.x + ENEMY_SIZE > playerXRef.current &&
+            enemy.y + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT;
+
+          if (collisionWithPlate || collisionWithPlayer) {
             setScore((prevScore) => prevScore + 1);
             setTotalCalories(
               (prevCalories) => prevCalories + CANDY_TYPES[enemy.type].calories
@@ -68,8 +89,8 @@ function useGameLoop(setGameOver, setScore) {
             return false;
           }
           return true;
-        });
-      });
+        })
+      );
 
       setTimeLeft((prevTime) => {
         if (prevTime <= 0) {
@@ -79,10 +100,10 @@ function useGameLoop(setGameOver, setScore) {
         }
         return prevTime - 0.02;
       });
-    }, 20);
+    }, 16); // 約60FPSに調整
 
     return () => clearInterval(gameLoop);
-  }, [plates, setGameOver, setScore]);
+  }, [updatePlayerPosition, plates, setGameOver, setScore]);
 
   useEffect(() => {
     const spawnEnemy = () => {
@@ -107,6 +128,7 @@ function useGameLoop(setGameOver, setScore) {
     timeLeft,
     totalCalories,
     movePlayer,
+    stopPlayer,
     shootPlate,
   };
 }
