@@ -1,10 +1,10 @@
 import React from "react";
 
-function GameInfo({ score, timeLeft }) {
+function GameInfo({ score, timeLeft, totalCalories }) {
   return (
     <div className="game-info">
-      <p>お菓子を{score}こ食べたよ</p>
-      <p> のこり{timeLeft}秒</p>
+      <p>おかしを{score}こ食べてるよ</p>
+      <p>残り時間は: {Math.ceil(timeLeft)}秒</p>
     </div>
   );
 }

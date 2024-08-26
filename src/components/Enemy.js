@@ -1,7 +1,5 @@
 import React from "react";
-import { ENEMY_SIZE } from "../constants";
-
-const candyEmojis = ["🍬", "🍭", "🍫", "🍪", "🧁", "🍩"];
+import { ENEMY_SIZE, CANDY_TYPES } from "../constants";
 
 function Enemy({ x, y, type }) {
   return (
@@ -19,7 +17,7 @@ function Enemy({ x, y, type }) {
         fontSize: "50px",
       }}
     >
-      {candyEmojis[type]}
+      {CANDY_TYPES[type].emoji}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {
   PLAYER_HEIGHT,
   ENEMY_SIZE,
   PLATE_SIZE,
+  CANDY_TYPES,
 } from "../constants";
 
 function useGameLoop(setGameOver, setScore) {
@@ -13,6 +14,7 @@ function useGameLoop(setGameOver, setScore) {
   const [enemies, setEnemies] = useState([]);
   const [plates, setPlates] = useState([]);
   const [timeLeft, setTimeLeft] = useState(30);
+  const [totalCalories, setTotalCalories] = useState(0);
 
   const movePlayer = useCallback((direction) => {
     setPlayerX((prevX) => {
@@ -60,6 +62,9 @@ function useGameLoop(setGameOver, setScore) {
 
           if (collisionWithPlate) {
             setScore((prevScore) => prevScore + 1);
+            setTotalCalories(
+              (prevCalories) => prevCalories + CANDY_TYPES[enemy.type].calories
+            );
             return false;
           }
           return true;
@@ -86,7 +91,7 @@ function useGameLoop(setGameOver, setScore) {
         {
           x: Math.random() * (GAME_WIDTH - ENEMY_SIZE),
           y: 0,
-          type: Math.floor(Math.random() * 6),
+          type: Math.floor(Math.random() * CANDY_TYPES.length),
         },
       ]);
     };
@@ -95,7 +100,15 @@ function useGameLoop(setGameOver, setScore) {
     return () => clearInterval(enemySpawner);
   }, []);
 
-  return { playerX, enemies, plates, timeLeft, movePlayer, shootPlate };
+  return {
+    playerX,
+    enemies,
+    plates,
+    timeLeft,
+    totalCalories,
+    movePlayer,
+    shootPlate,
+  };
 }
 
 export default useGameLoop;

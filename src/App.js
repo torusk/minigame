@@ -9,12 +9,23 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
 
-  const { playerX, enemies, plates, timeLeft, movePlayer, shootPlate } =
-    useGameLoop(setGameOver, setScore);
+  const {
+    playerX,
+    enemies,
+    plates,
+    timeLeft,
+    totalCalories,
+    movePlayer,
+    shootPlate,
+  } = useGameLoop(setGameOver, setScore);
 
   if (gameOver) {
     return (
-      <GameOver score={score} onRestart={() => window.location.reload()} />
+      <GameOver
+        score={score}
+        totalCalories={totalCalories}
+        onRestart={() => window.location.reload()}
+      />
     );
   }
 
@@ -27,6 +38,7 @@ function App() {
       plates={plates}
       score={score}
       timeLeft={timeLeft}
+      totalCalories={totalCalories}
       onMovePlayer={movePlayer}
       onShootPlate={shootPlate}
     />
