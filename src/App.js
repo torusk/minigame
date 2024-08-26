@@ -9,10 +9,8 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
 
-  const { playerX, enemies, timeLeft, movePlayer } = useGameLoop(
-    setGameOver,
-    setScore
-  );
+  const { playerX, enemies, plates, timeLeft, movePlayer, shootPlate } =
+    useGameLoop(setGameOver, setScore);
 
   if (gameOver) {
     return (
@@ -26,9 +24,11 @@ function App() {
       height={GAME_HEIGHT}
       playerX={playerX}
       enemies={enemies}
+      plates={plates}
       score={score}
       timeLeft={timeLeft}
       onMovePlayer={movePlayer}
+      onShootPlate={shootPlate}
     />
   );
 }

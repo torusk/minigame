@@ -8,9 +8,11 @@ function GameContainer({
   height,
   playerX,
   enemies,
+  plates,
   score,
   timeLeft,
   onMovePlayer,
+  onShootPlate,
 }) {
   return (
     <div className="game-container">
@@ -19,11 +21,13 @@ function GameContainer({
         height={height}
         playerX={playerX}
         enemies={enemies}
+        plates={plates}
       />
       <GameInfo score={score} timeLeft={Math.ceil(timeLeft)} />
       <ControlButtons
         onMoveLeft={() => onMovePlayer(-1)}
         onMoveRight={() => onMovePlayer(1)}
+        onShootPlate={onShootPlate}
       />
     </div>
   );

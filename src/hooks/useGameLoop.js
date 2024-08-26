@@ -5,11 +5,13 @@ import {
   GAME_HEIGHT,
   PLAYER_HEIGHT,
   ENEMY_SIZE,
+  PLATE_SIZE,
 } from "../constants";
 
 function useGameLoop(setGameOver, setScore) {
   const [playerX, setPlayerX] = useState(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
   const [enemies, setEnemies] = useState([]);
+  const [plates, setPlates] = useState([]);
   const [timeLeft, setTimeLeft] = useState(30);
 
   const movePlayer = useCallback((direction) => {
@@ -19,28 +21,48 @@ function useGameLoop(setGameOver, setScore) {
     });
   }, []);
 
+  const shootPlate = useCallback(() => {
+    setPlates((prevPlates) => [
+      ...prevPlates,
+      {
+        x: playerX + PLAYER_WIDTH / 2 - PLATE_SIZE / 2,
+        y: GAME_HEIGHT - PLAYER_HEIGHT - PLATE_SIZE,
+      },
+    ]);
+  }, [playerX]);
+
   useEffect(() => {
     const gameLoop = setInterval(() => {
       setEnemies((prevEnemies) => {
         return prevEnemies.filter((enemy) => {
-          // お菓子の落下速度を遅くする（1ピクセルに変更）
-          const nextY = enemy.y + 1;
+          enemy.y += 2;
+          return enemy.y < GAME_HEIGHT;
+        });
+      });
 
-          // 衝突判定（お菓子が皿に触れたかどうか）
-          const collision =
-            nextY + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT &&
-            enemy.x < playerX + PLAYER_WIDTH &&
-            enemy.x + ENEMY_SIZE > playerX;
+      setPlates((prevPlates) => {
+        return prevPlates.filter((plate) => {
+          plate.y -= 5;
+          return plate.y > -PLATE_SIZE;
+        });
+      });
 
-          if (collision) {
+      // 衝突判定
+      setEnemies((prevEnemies) => {
+        return prevEnemies.filter((enemy) => {
+          const collisionWithPlate = plates.some(
+            (plate) =>
+              plate.x < enemy.x + ENEMY_SIZE &&
+              plate.x + PLATE_SIZE > enemy.x &&
+              plate.y < enemy.y + ENEMY_SIZE &&
+              plate.y + PLATE_SIZE > enemy.y
+          );
+
+          if (collisionWithPlate) {
             setScore((prevScore) => prevScore + 1);
-            return false; // お菓子を消去
+            return false;
           }
-
-          // 衝突していない場合、お菓子を移動
-          enemy.y = nextY;
-
-          return enemy.y < GAME_HEIGHT; // 画面内にあるお菓子のみ残す
+          return true;
         });
       });
 
@@ -55,7 +77,7 @@ function useGameLoop(setGameOver, setScore) {
     }, 20);
 
     return () => clearInterval(gameLoop);
-  }, [playerX, setGameOver, setScore]);
+  }, [plates, setGameOver, setScore]);
 
   useEffect(() => {
     const spawnEnemy = () => {
@@ -73,7 +95,7 @@ function useGameLoop(setGameOver, setScore) {
     return () => clearInterval(enemySpawner);
   }, []);
 
-  return { playerX, enemies, timeLeft, movePlayer };
+  return { playerX, enemies, plates, timeLeft, movePlayer, shootPlate };
 }
 
 export default useGameLoop;

@@ -1,6 +1,6 @@
 import React from "react";
 
-function ControlButtons({ onMoveLeft, onMoveRight }) {
+function ControlButtons({ onMoveLeft, onMoveRight, onShootPlate }) {
   return (
     <div className="control-buttons">
       <button
@@ -11,6 +11,15 @@ function ControlButtons({ onMoveLeft, onMoveRight }) {
         onMouseUp={(e) => e.preventDefault()}
       >
         ←
+      </button>
+      <button
+        className="control-button shoot"
+        onTouchStart={onShootPlate}
+        onMouseDown={onShootPlate}
+        onTouchEnd={(e) => e.preventDefault()}
+        onMouseUp={(e) => e.preventDefault()}
+      >
+        🍽️
       </button>
       <button
         className="control-button right"
