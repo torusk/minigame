@@ -14,7 +14,10 @@ function Player({ x }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: "24px",
+        fontSize: "36px", // 1.5倍に大きくしたので、フォントサイズも1.5倍に
+        backgroundColor: "white",
+        borderRadius: "50%",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
       }}
     >
       🍽️

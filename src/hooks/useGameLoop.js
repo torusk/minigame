@@ -14,7 +14,7 @@ function useGameLoop(setGameOver, setScore) {
 
   const movePlayer = useCallback((direction) => {
     setPlayerX((prevX) => {
-      const newX = prevX + direction * 10;
+      const newX = prevX + direction * 20;
       return Math.max(0, Math.min(GAME_WIDTH - PLAYER_WIDTH, newX));
     });
   }, []);
@@ -22,23 +22,26 @@ function useGameLoop(setGameOver, setScore) {
   useEffect(() => {
     const gameLoop = setInterval(() => {
       setEnemies((prevEnemies) => {
-        const newEnemies = prevEnemies
-          .map((enemy) => ({ ...enemy, y: enemy.y + 2 }))
-          .filter((enemy) => enemy.y < GAME_HEIGHT);
+        return prevEnemies.filter((enemy) => {
+          // お菓子の落下速度を遅くする（1ピクセルに変更）
+          const nextY = enemy.y + 1;
 
-        // プレイヤーとの衝突をチェック
-        newEnemies.forEach((enemy) => {
-          if (
-            enemy.y + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT &&
+          // 衝突判定（お菓子が皿に触れたかどうか）
+          const collision =
+            nextY + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT &&
             enemy.x < playerX + PLAYER_WIDTH &&
-            enemy.x + ENEMY_SIZE > playerX
-          ) {
-            setScore((prevScore) => prevScore + 1);
-            enemy.collected = true;
-          }
-        });
+            enemy.x + ENEMY_SIZE > playerX;
 
-        return newEnemies.filter((enemy) => !enemy.collected);
+          if (collision) {
+            setScore((prevScore) => prevScore + 1);
+            return false; // お菓子を消去
+          }
+
+          // 衝突していない場合、お菓子を移動
+          enemy.y = nextY;
+
+          return enemy.y < GAME_HEIGHT; // 画面内にあるお菓子のみ残す
+        });
       });
 
       setTimeLeft((prevTime) => {
@@ -61,7 +64,7 @@ function useGameLoop(setGameOver, setScore) {
         {
           x: Math.random() * (GAME_WIDTH - ENEMY_SIZE),
           y: 0,
-          type: Math.floor(Math.random() * 6), // 0-5のランダムな整数
+          type: Math.floor(Math.random() * 6),
         },
       ]);
     };
@@ -70,12 +73,7 @@ function useGameLoop(setGameOver, setScore) {
     return () => clearInterval(enemySpawner);
   }, []);
 
-  return {
-    playerX,
-    enemies,
-    timeLeft,
-    movePlayer,
-  };
+  return { playerX, enemies, timeLeft, movePlayer };
 }
 
 export default useGameLoop;

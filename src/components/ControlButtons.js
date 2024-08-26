@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-function ControlButtons({ onMoveLeft, onMoveRight, onShoot }) {
+function ControlButtons({ onMoveLeft, onMoveRight }) {
   return (
     <div className="control-buttons">
       <button
@@ -20,15 +20,6 @@ function ControlButtons({ onMoveLeft, onMoveRight, onShoot }) {
         onMouseUp={(e) => e.preventDefault()}
       >
         →
-      </button>
-      <button
-        className="control-button shoot"
-        onTouchStart={onShoot}
-        onMouseDown={onShoot}
-        onTouchEnd={(e) => e.preventDefault()}
-        onMouseUp={(e) => e.preventDefault()}
-      >
-        🚀
       </button>
     </div>
   );
