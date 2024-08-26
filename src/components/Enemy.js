@@ -16,7 +16,7 @@ function Enemy({ x, y, type }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: "24px",
+        fontSize: "50px",
       }}
     >
       {candyEmojis[type]}

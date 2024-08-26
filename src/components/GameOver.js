@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function GameOver({ score, onRestart }) {
   return (
     <div className="game-over">
-      <h1>Game Over</h1>
-      <p>Score: {score}</p>
-      <button onClick={onRestart}>Restart</button>
+      <h1>〜🐰おしまい🍩〜</h1>
+      <p>すごい！おやつを{score}こも食べたよ！！</p>
+      <button onClick={onRestart}>もう一度あそぶ</button>
     </div>
   );
 }

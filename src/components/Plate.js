@@ -1,5 +1,5 @@
-import React from 'react';
-import { PLATE_SIZE } from '../constants';
+import React from "react";
+import { PLATE_SIZE } from "../constants";
 
 function Plate({ x, y }) {
   return (
@@ -10,8 +10,8 @@ function Plate({ x, y }) {
         top: y,
         width: PLATE_SIZE,
         height: PLATE_SIZE,
-        position: 'absolute',
-        fontSize: '24px',
+        position: "absolute",
+        fontSize: "36px",
       }}
     >
       🍽️
