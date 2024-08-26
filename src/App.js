@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import GameContainer from "./components/GameContainer";
+import GameOver from "./components/GameOver";
+import useGameLoop from "./hooks/useGameLoop";
+import { GAME_WIDTH, GAME_HEIGHT } from "./constants";
+import "./App.css";
 
 function App() {
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const { playerX, enemies, timeLeft, movePlayer } = useGameLoop(
+    setGameOver,
+    setScore
+  );
+
+  if (gameOver) {
+    return (
+      <GameOver score={score} onRestart={() => window.location.reload()} />
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GameContainer
+      width={GAME_WIDTH}
+      height={GAME_HEIGHT}
+      playerX={playerX}
+      enemies={enemies}
+      score={score}
+      timeLeft={timeLeft}
+      onMovePlayer={movePlayer}
+    />
   );
 }
 
