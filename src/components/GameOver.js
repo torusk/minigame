@@ -4,15 +4,25 @@ import { calculateExercise } from "../utils/calorieUtils";
 function GameOver({ score, totalCalories, onRestart }) {
   const exerciseEquivalent = calculateExercise(totalCalories);
 
+  // 運動の文字列から回数の表現を削除する関数
+  const removeOccurrences = (exercise) => {
+    return exercise.replace(/\d+回の/, "");
+  };
+
   return (
     <div className="game-over">
       <h1>🍰おしまい🍩</h1>
-      <p>おなかいっぱいだね！おかしを全部で{score}こも食べたよ！</p>
+      <p>おなかいっぱいだね！全部で{score}皿も食べたよ！</p>
       <p>
-        全部でなんと{totalCalories}カロリー分も食べちゃったね。
-        このカロリーを消費するには・・・
+        <span className="emphasized-exercise">{totalCalories}</span>
+        カロリー分のエネルギー量だよ。 <p>これを消費するには・・・</p>
       </p>
-      <p>{exerciseEquivalent}すればOKだよ。がんばろう！</p>
+      <p>
+        <span className="emphasized-exercise">
+          {removeOccurrences(exerciseEquivalent)}
+        </span>
+        をすればOKだよ。がんばって！
+      </p>
       <button onClick={onRestart}>もう一度あそぶ</button>
     </div>
   );
