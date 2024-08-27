@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import GameContainer from "./components/GameContainer";
 import GameOver from "./components/GameOver";
 import useGameLoop from "./hooks/useGameLoop";
@@ -8,6 +8,7 @@ import "./App.css";
 function App() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const gameOverSound = useRef(new Audio("/game_over.mp3"));
 
   const {
     playerX,
@@ -19,6 +20,12 @@ function App() {
     stopPlayer,
     shootPlate,
   } = useGameLoop(setGameOver, setScore);
+
+  useEffect(() => {
+    if (gameOver) {
+      gameOverSound.current.play();
+    }
+  }, [gameOver]);
 
   if (gameOver) {
     return (

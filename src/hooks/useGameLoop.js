@@ -17,6 +17,10 @@ function useGameLoop(setGameOver, setScore) {
   const [plates, setPlates] = useState([]);
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalCalories, setTotalCalories] = useState(0);
+  const [isGameActive, setIsGameActive] = useState(true);
+
+  const plateShootSound = useRef(new Audio("/plate_shoot.mp3"));
+  const collisionSound = useRef(new Audio("/collision.mp3"));
 
   const movePlayer = useCallback((direction) => {
     playerVelocityRef.current = direction * 5;
@@ -27,6 +31,9 @@ function useGameLoop(setGameOver, setScore) {
   }, []);
 
   const shootPlate = useCallback(() => {
+    if (!isGameActive) return;
+    plateShootSound.current.currentTime = 0;
+    plateShootSound.current.play();
     setPlates((prevPlates) => [
       ...prevPlates,
       {
@@ -34,7 +41,7 @@ function useGameLoop(setGameOver, setScore) {
         y: GAME_HEIGHT - PLAYER_HEIGHT - PLATE_SIZE,
       },
     ]);
-  }, []);
+  }, [isGameActive]);
 
   const updatePlayerPosition = useCallback(() => {
     const newX = Math.max(
@@ -50,6 +57,8 @@ function useGameLoop(setGameOver, setScore) {
 
   useEffect(() => {
     const gameLoop = setInterval(() => {
+      if (!isGameActive) return;
+
       updatePlayerPosition();
 
       setEnemies((prevEnemies) =>
@@ -82,6 +91,8 @@ function useGameLoop(setGameOver, setScore) {
             enemy.y + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT;
 
           if (collisionWithPlate || collisionWithPlayer) {
+            collisionSound.current.currentTime = 0;
+            collisionSound.current.play();
             setScore((prevScore) => prevScore + 1);
             setTotalCalories(
               (prevCalories) => prevCalories + CANDY_TYPES[enemy.type].calories
@@ -94,7 +105,7 @@ function useGameLoop(setGameOver, setScore) {
 
       setTimeLeft((prevTime) => {
         if (prevTime <= 0) {
-          clearInterval(gameLoop);
+          setIsGameActive(false);
           setGameOver(true);
           return 0;
         }
@@ -103,10 +114,11 @@ function useGameLoop(setGameOver, setScore) {
     }, 16); // 約60FPSに調整
 
     return () => clearInterval(gameLoop);
-  }, [updatePlayerPosition, plates, setGameOver, setScore]);
+  }, [updatePlayerPosition, plates, setGameOver, setScore, isGameActive]);
 
   useEffect(() => {
     const spawnEnemy = () => {
+      if (!isGameActive) return;
       setEnemies((prevEnemies) => [
         ...prevEnemies,
         {
@@ -119,7 +131,7 @@ function useGameLoop(setGameOver, setScore) {
 
     const enemySpawner = setInterval(spawnEnemy, 1000);
     return () => clearInterval(enemySpawner);
-  }, []);
+  }, [isGameActive]);
 
   return {
     playerX,
