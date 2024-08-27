@@ -14,7 +14,7 @@ function Player({ x }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: "60px",
+        fontSize: "75px",
       }}
     >
       🐰
