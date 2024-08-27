@@ -9,7 +9,7 @@ import {
   CANDY_TYPES,
 } from "../constants";
 
-function useGameLoop(setGameOver, setScore) {
+function useGameLoop(setGameOver, setScore, playPlateShoot, playCollision) {
   const playerXRef = useRef(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
   const [playerX, setPlayerX] = useState(playerXRef.current);
   const playerVelocityRef = useRef(0);
@@ -18,9 +18,6 @@ function useGameLoop(setGameOver, setScore) {
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalCalories, setTotalCalories] = useState(0);
   const [isGameActive, setIsGameActive] = useState(true);
-
-  const plateShootSound = useRef(new Audio("/plate_shoot.mp3"));
-  const collisionSound = useRef(new Audio("/collision.mp3"));
 
   const movePlayer = useCallback((direction) => {
     playerVelocityRef.current = direction * 5;
@@ -32,8 +29,7 @@ function useGameLoop(setGameOver, setScore) {
 
   const shootPlate = useCallback(() => {
     if (!isGameActive) return;
-    plateShootSound.current.currentTime = 0;
-    plateShootSound.current.play();
+    playPlateShoot();
     setPlates((prevPlates) => [
       ...prevPlates,
       {
@@ -41,7 +37,7 @@ function useGameLoop(setGameOver, setScore) {
         y: GAME_HEIGHT - PLAYER_HEIGHT - PLATE_SIZE,
       },
     ]);
-  }, [isGameActive]);
+  }, [isGameActive, playPlateShoot]);
 
   const updatePlayerPosition = useCallback(() => {
     const newX = Math.max(
@@ -91,8 +87,7 @@ function useGameLoop(setGameOver, setScore) {
             enemy.y + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT;
 
           if (collisionWithPlate || collisionWithPlayer) {
-            collisionSound.current.currentTime = 0;
-            collisionSound.current.play();
+            playCollision();
             setScore((prevScore) => prevScore + 1);
             setTotalCalories(
               (prevCalories) => prevCalories + CANDY_TYPES[enemy.type].calories
@@ -114,7 +109,14 @@ function useGameLoop(setGameOver, setScore) {
     }, 16); // 約60FPSに調整
 
     return () => clearInterval(gameLoop);
-  }, [updatePlayerPosition, plates, setGameOver, setScore, isGameActive]);
+  }, [
+    updatePlayerPosition,
+    plates,
+    setGameOver,
+    setScore,
+    isGameActive,
+    playCollision,
+  ]);
 
   useEffect(() => {
     const spawnEnemy = () => {

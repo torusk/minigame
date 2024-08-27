@@ -1,14 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import GameContainer from "./components/GameContainer";
 import GameOver from "./components/GameOver";
 import useGameLoop from "./hooks/useGameLoop";
+import useAudio from "./hooks/useAudio";
 import { GAME_WIDTH, GAME_HEIGHT } from "./constants";
 import "./App.css";
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
-  const gameOverSound = useRef(new Audio("/game_over.mp3"));
+  const {
+    isLoaded,
+    playBgm,
+    stopBgm,
+    playGameOver,
+    playPlateShoot,
+    playCollision,
+    setVolume,
+  } = useAudio();
 
   const {
     playerX,
@@ -19,13 +28,23 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
-  } = useGameLoop(setGameOver, setScore);
+  } = useGameLoop(setGameOver, setScore, playPlateShoot, playCollision);
+
+  useEffect(() => {
+    if (isLoaded) {
+      playBgm();
+    }
+    return () => {
+      stopBgm();
+    };
+  }, [isLoaded, playBgm, stopBgm]);
 
   useEffect(() => {
     if (gameOver) {
-      gameOverSound.current.play();
+      stopBgm();
+      playGameOver();
     }
-  }, [gameOver]);
+  }, [gameOver, stopBgm, playGameOver]);
 
   if (gameOver) {
     return (
@@ -50,6 +69,7 @@ function App() {
       onMovePlayer={movePlayer}
       onStopPlayer={stopPlayer}
       onShootPlate={shootPlate}
+      setVolume={setVolume}
     />
   );
 }
