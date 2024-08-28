@@ -32,6 +32,7 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
+    gamePhase, // 追加
   } = useGameLoop(
     setGameOver,
     setScore,
@@ -87,6 +88,7 @@ function App() {
       score={score}
       timeLeft={timeLeft}
       totalCalories={totalCalories}
+      gamePhase={gamePhase} // 追加
       onMovePlayer={movePlayer}
       onStopPlayer={stopPlayer}
       onShootPlate={shootPlate}

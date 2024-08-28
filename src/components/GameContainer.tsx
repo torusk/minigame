@@ -13,6 +13,7 @@ interface GameContainerProps {
   score: number;
   timeLeft: number;
   totalCalories: number;
+  gamePhase: "normal" | "intense"; // 追加
   onMovePlayer: (direction: number) => void;
   onStopPlayer: () => void;
   onShootPlate: () => void;
@@ -28,6 +29,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
   score,
   timeLeft,
   totalCalories,
+  gamePhase, // 追加
   onMovePlayer,
   onStopPlayer,
   onShootPlate,
@@ -78,6 +80,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
           score={score}
           timeLeft={Math.ceil(timeLeft)}
           totalCalories={totalCalories}
+          gamePhase={gamePhase} // 追加
         />
         <ControlButtons
           onMoveLeft={() => onMovePlayer(-1)}

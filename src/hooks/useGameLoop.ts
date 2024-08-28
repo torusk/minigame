@@ -8,6 +8,13 @@ import {
 } from "../constants";
 import { Enemy, Plate } from "../types";
 
+// ゲームの設定（後から調整可能）
+const GAME_DURATION = 30; // ゲームの総時間（秒）
+const INTENSE_PHASE_DURATION = 10; // インテンスフェーズの時間（秒）
+const INTENSE_SPAWN_MULTIPLIER = 5; // インテンスフェーズでのスポーン倍率
+// const NORMAL_SPAWN_INTERVAL = 1000; // 通常フェーズでのスポーン間隔（ミリ秒）
+// const INTENSE_SPAWN_INTERVAL = 200; // インテンスフェーズでのスポーン間隔（ミリ秒）
+
 function useGameLoop(
   setGameOver: (isOver: boolean) => void,
   setScore: React.Dispatch<React.SetStateAction<number>>,
@@ -20,9 +27,10 @@ function useGameLoop(
   const playerVelocityRef = useRef<number>(0);
   const [enemies, setEnemies] = useState<Enemy[]>([]);
   const [plates, setPlates] = useState<Plate[]>([]);
-  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [timeLeft, setTimeLeft] = useState<number>(GAME_DURATION);
   const [totalCalories, setTotalCalories] = useState<number>(0);
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
+  const [gamePhase, setGamePhase] = useState<"normal" | "intense">("normal");
 
   const movePlayer = useCallback((direction: number) => {
     playerVelocityRef.current = direction * 5;
@@ -109,6 +117,10 @@ function useGameLoop(
           setGameOver(true);
           return 0;
         }
+        // ここでフェーズを切り替える
+        if (prevTime <= INTENSE_PHASE_DURATION && gamePhase === "normal") {
+          setGamePhase("intense");
+        }
         return prevTime - 0.02;
       });
     }, 16);
@@ -122,24 +134,31 @@ function useGameLoop(
     isGameActive,
     playCollision,
     gameSize.height,
+    gamePhase,
   ]);
 
   useEffect(() => {
     const spawnEnemy = () => {
       if (!isGameActive) return;
-      setEnemies((prevEnemies) => [
-        ...prevEnemies,
-        {
-          x: Math.random() * (gameSize.width - ENEMY_SIZE),
-          y: 0,
-          type: Math.floor(Math.random() * CANDY_TYPES.length),
-        },
-      ]);
+      // フェーズに応じてスポーン数を調整
+      const spawnCount = gamePhase === "intense" ? INTENSE_SPAWN_MULTIPLIER : 1;
+      for (let i = 0; i < spawnCount; i++) {
+        setEnemies((prevEnemies) => [
+          ...prevEnemies,
+          {
+            x: Math.random() * (gameSize.width - ENEMY_SIZE),
+            y: 0,
+            type: Math.floor(Math.random() * CANDY_TYPES.length),
+          },
+        ]);
+      }
     };
 
-    const enemySpawner = setInterval(spawnEnemy, 1000);
+    // フェーズに応じてスポーン間隔を調整
+    const spawnInterval = gamePhase === "intense" ? 200 : 1000; // ミリ秒
+    const enemySpawner = setInterval(spawnEnemy, spawnInterval);
     return () => clearInterval(enemySpawner);
-  }, [isGameActive, gameSize.width]);
+  }, [isGameActive, gameSize.width, gamePhase]);
 
   return {
     playerX,
@@ -150,6 +169,7 @@ function useGameLoop(
     movePlayer,
     stopPlayer,
     shootPlate,
+    gamePhase,
   };
 }
 
