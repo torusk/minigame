@@ -6,4 +6,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    outDir: "dist", // 出力ディレクトリを 'dist' に設定
+  },
 });
