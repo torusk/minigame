@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import GameContainer from "./components/GameContainer";
 import GameOver from "./components/GameOver";
 import useGameLoop from "./hooks/useGameLoop";

@@ -12,7 +12,7 @@ import { Enemy, Plate } from "../types";
 
 function useGameLoop(
   setGameOver: (isOver: boolean) => void,
-  setScore: (score: number) => void,
+  setScore: React.Dispatch<React.SetStateAction<number>>,
   playPlateShoot: () => void,
   playCollision: () => void
 ) {

@@ -5,6 +5,7 @@ interface ControlButtonsProps {
   onMoveRight: () => void;
   onStopMove: () => void;
   onShootPlate: () => void;
+  setVolume: (volume: number) => void; // この行を追加
 }
 
 const ControlButtons: React.FC<ControlButtonsProps> = ({
@@ -12,6 +13,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
   onMoveRight,
   onStopMove,
   onShootPlate,
+  setVolume, // この行を追加
 }) => {
   return (
     <div className="control-buttons">
@@ -44,6 +46,14 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
       >
         →
       </button>
+      {/* ボリューム調整用のスライダーを追加 */}
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.1"
+        onChange={(e) => setVolume(parseFloat(e.target.value))}
+      />
     </div>
   );
 };
