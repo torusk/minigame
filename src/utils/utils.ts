@@ -1,6 +1,21 @@
-import { ENEMY_SIZE, BULLET_SIZE, POWERUP_SIZE, PLAYER_WIDTH, PLAYER_HEIGHT, GAME_HEIGHT } from '../constants';
+import {
+  ENEMY_SIZE,
+  BULLET_SIZE,
+  POWERUP_SIZE,
+  PLAYER_WIDTH,
+  PLAYER_HEIGHT,
+  GAME_HEIGHT,
+} from "../constants";
+import { Bullet, Enemy, PowerUp } from "../types";
 
-export function checkCollisions(bullets, enemies, powerUps, playerX, setScore, setDoubleBullets) {
+export function checkCollisions(
+  bullets: Bullet[],
+  enemies: Enemy[],
+  powerUps: PowerUp[],
+  playerX: number,
+  setScore: (callback: (prevScore: number) => number) => void,
+  setDoubleBullets: (value: boolean) => void
+): void {
   // Check bullet-enemy collisions
   bullets.forEach((bullet) => {
     enemies.forEach((enemy, index) => {

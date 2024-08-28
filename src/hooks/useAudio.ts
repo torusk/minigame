@@ -1,19 +1,19 @@
 import { useRef, useCallback, useEffect, useState } from "react";
 
 function useAudio() {
-  const audioContext = useRef(null);
-  const gainNode = useRef(null);
-  const sources = useRef({});
-  const buffers = useRef({});
+  const audioContext = useRef<AudioContext | null>(null);
+  const gainNode = useRef<GainNode | null>(null);
+  const sources = useRef<{ [key: string]: AudioBufferSourceNode }>({});
+  const buffers = useRef<{ [key: string]: AudioBuffer }>({});
   const [isLoaded, setIsLoaded] = useState(false);
 
   const initAudio = useCallback(async () => {
     audioContext.current = new (window.AudioContext ||
-      window.webkitAudioContext)();
+      (window as any).webkitAudioContext)();
     gainNode.current = audioContext.current.createGain();
     gainNode.current.connect(audioContext.current.destination);
 
-    const audioFiles = {
+    const audioFiles: { [key: string]: string } = {
       bgm: "/game_bgm.mp3",
       gameOver: "/game_over.mp3",
       plateShoot: "/plate_shoot.mp3",
@@ -23,7 +23,7 @@ function useAudio() {
     const loadPromises = Object.entries(audioFiles).map(async ([key, url]) => {
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
-      buffers.current[key] = await audioContext.current.decodeAudioData(
+      buffers.current[key] = await audioContext.current!.decodeAudioData(
         arrayBuffer
       );
     });
@@ -41,8 +41,8 @@ function useAudio() {
     };
   }, [initAudio]);
 
-  const setVolume = useCallback((volume) => {
-    if (gainNode.current) {
+  const setVolume = useCallback((volume: number) => {
+    if (gainNode.current && audioContext.current) {
       gainNode.current.gain.setValueAtTime(
         volume,
         audioContext.current.currentTime
@@ -51,8 +51,14 @@ function useAudio() {
   }, []);
 
   const playSound = useCallback(
-    (soundName, loop = false) => {
-      if (!isLoaded || !buffers.current[soundName]) return;
+    (soundName: string, loop = false) => {
+      if (
+        !isLoaded ||
+        !buffers.current[soundName] ||
+        !audioContext.current ||
+        !gainNode.current
+      )
+        return;
 
       if (sources.current[soundName]) {
         sources.current[soundName].stop();
@@ -73,7 +79,7 @@ function useAudio() {
     [isLoaded]
   );
 
-  const stopSound = useCallback((soundName) => {
+  const stopSound = useCallback((soundName: string) => {
     if (sources.current[soundName]) {
       sources.current[soundName].stop();
       delete sources.current[soundName];

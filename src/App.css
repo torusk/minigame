@@ -1,111 +1,42 @@
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f0f8ff; /* AliceBlue - とても薄い青色 */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-.game-area {
-  position: relative;
-  width: 800px;
-  height: 600px;
-  background-color: #ffffff;
-  overflow: hidden;
-  border: 2px solid #61dafb;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 薄い影を追加 */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.player {
-  position: absolute;
-  width: 75px; /* 50px * 1.5 */
-  height: 75px; /* 50px * 1.5 */
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 36px; /* 24px * 1.5 */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.enemy {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  background-color: transparent;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.game-info {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #333;
+.card {
+  padding: 2em;
 }
 
-.control-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.control-button {
-  width: 60px;
-  height: 60px;
-  margin: 0 10px;
-  font-size: 24px;
-  background-color: #61dafb;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.game-over {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f0f8ff;
-  color: #333;
-}
-
-.game-over h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.game-over button {
-  font-size: 24px;
-  padding: 10px 20px;
-  background-color: #61dafb;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-}
-
-.plate {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  background-color: transparent;
-}
-
-.emphasized-exercise {
-  font-size: 1.5em;
-  color: red;
-  font-weight: bold;
+.read-the-docs {
+  color: #888;
 }

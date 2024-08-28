@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-function AudioSettings({ setVolume }) {
-  const [currentVolume, setCurrentVolume] = useState(1);
+interface AudioSettingsProps {
+  setVolume: (volume: number) => void;
+}
 
-  const handleVolumeChange = (e) => {
+const AudioSettings: React.FC<AudioSettingsProps> = ({ setVolume }) => {
+  const [currentVolume, setCurrentVolume] = useState<number>(1);
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setCurrentVolume(newVolume);
     setVolume(newVolume);
@@ -23,6 +27,6 @@ function AudioSettings({ setVolume }) {
       />
     </div>
   );
-}
+};
 
 export default AudioSettings;

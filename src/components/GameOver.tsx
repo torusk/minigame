@@ -1,11 +1,21 @@
 import React from "react";
 import { calculateExercise } from "../utils/calorieUtils";
 
-function GameOver({ score, totalCalories, onRestart }) {
+interface GameOverProps {
+  score: number;
+  totalCalories: number;
+  onRestart: () => void;
+}
+
+const GameOver: React.FC<GameOverProps> = ({
+  score,
+  totalCalories,
+  onRestart,
+}) => {
   const exerciseEquivalent = calculateExercise(totalCalories);
 
   // 運動の文字列から回数の表現を削除する関数
-  const removeOccurrences = (exercise) => {
+  const removeOccurrences = (exercise: string): string => {
     return exercise.replace(/\d+回の/, "");
   };
 
@@ -26,6 +36,6 @@ function GameOver({ score, totalCalories, onRestart }) {
       <button onClick={onRestart}>もう一度あそぶ</button>
     </div>
   );
-}
+};
 
 export default GameOver;

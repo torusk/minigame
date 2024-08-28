@@ -1,6 +1,6 @@
 import { EXERCISE_EQUIVALENTS } from "../constants";
 
-export function calculateExercise(calories) {
+export function calculateExercise(calories: number): string {
   for (let i = 0; i < EXERCISE_EQUIVALENTS.length; i++) {
     const { calories: exerciseCalories, exercise } = EXERCISE_EQUIVALENTS[i];
     if (calories <= exerciseCalories) {

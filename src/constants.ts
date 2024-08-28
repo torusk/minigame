@@ -4,10 +4,15 @@ export const PLAYER_WIDTH = 50;
 export const PLAYER_HEIGHT = 50;
 export const ENEMY_SIZE = 30;
 export const PLATE_SIZE = 30;
+export const BULLET_SIZE = 10;
+export const POWERUP_SIZE = 30;
 
-// ... 既存の定数 ...
+interface CandyType {
+  emoji: string;
+  calories: number;
+}
 
-export const CANDY_TYPES = [
+export const CANDY_TYPES: CandyType[] = [
   { emoji: "🍬", calories: 20 },
   { emoji: "🍭", calories: 25 },
   { emoji: "🍫", calories: 30 },
@@ -27,9 +32,12 @@ export const CANDY_TYPES = [
   { emoji: "🍤", calories: 150 },
 ];
 
-// ... 既存の定数 ...
+interface ExerciseEquivalent {
+  calories: number;
+  exercise: string;
+}
 
-export const EXERCISE_EQUIVALENTS = [
+export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   { calories: 50, exercise: "5分の速歩" },
   { calories: 100, exercise: "10分のジョギング" },
   { calories: 200, exercise: "20分の水泳" },
@@ -44,5 +52,3 @@ export const EXERCISE_EQUIVALENTS = [
   { calories: 3500, exercise: "7時間の登山" },
   { calories: 4000, exercise: "8時間のウルトラマラソン" },
 ];
-
-// ... 他の定数 ...

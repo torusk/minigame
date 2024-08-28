@@ -1,7 +1,12 @@
-import React from 'react';
-import { BULLET_SIZE } from '../constants';
+import React from "react";
+import { BULLET_SIZE } from "../constants";
 
-function Bullet({ x, y }) {
+interface BulletProps {
+  x: number;
+  y: number;
+}
+
+const Bullet: React.FC<BulletProps> = ({ x, y }) => {
   return (
     <div
       className="bullet"
@@ -13,6 +18,6 @@ function Bullet({ x, y }) {
       }}
     />
   );
-}
+};
 
 export default Bullet;

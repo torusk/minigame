@@ -1,7 +1,12 @@
-import React from 'react';
-import { POWERUP_SIZE } from '../constants';
+import React from "react";
+import { POWERUP_SIZE } from "../constants";
 
-function PowerUp({ x, y }) {
+interface PowerUpProps {
+  x: number;
+  y: number;
+}
+
+const PowerUp: React.FC<PowerUpProps> = ({ x, y }) => {
   return (
     <div
       className="power-up"
@@ -13,6 +18,6 @@ function PowerUp({ x, y }) {
       }}
     />
   );
-}
+};
 
 export default PowerUp;

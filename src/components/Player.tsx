@@ -1,7 +1,11 @@
 import React from "react";
 import { PLAYER_WIDTH, PLAYER_HEIGHT } from "../constants";
 
-function Player({ x }) {
+interface PlayerProps {
+  x: number;
+}
+
+const Player: React.FC<PlayerProps> = ({ x }) => {
   return (
     <div
       className="player"
@@ -20,6 +24,6 @@ function Player({ x }) {
       🐰
     </div>
   );
-}
+};
 
 export default Player;

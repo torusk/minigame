@@ -1,7 +1,12 @@
 import React from "react";
 import { PLATE_SIZE } from "../constants";
 
-function Plate({ x, y }) {
+interface PlateProps {
+  x: number;
+  y: number;
+}
+
+const Plate: React.FC<PlateProps> = ({ x, y }) => {
   return (
     <div
       className="plate"
@@ -17,6 +22,6 @@ function Plate({ x, y }) {
       🍽️
     </div>
   );
-}
+};
 
 export default Plate;

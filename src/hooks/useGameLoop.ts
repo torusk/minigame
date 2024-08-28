@@ -9,17 +9,33 @@ import {
   CANDY_TYPES,
 } from "../constants";
 
-function useGameLoop(setGameOver, setScore, playPlateShoot, playCollision) {
+interface Enemy {
+  x: number;
+  y: number;
+  type: number;
+}
+
+interface Plate {
+  x: number;
+  y: number;
+}
+
+function useGameLoop(
+  setGameOver: (isOver: boolean) => void,
+  setScore: (score: number) => void,
+  playPlateShoot: () => void,
+  playCollision: () => void
+) {
   const playerXRef = useRef(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
   const [playerX, setPlayerX] = useState(playerXRef.current);
   const playerVelocityRef = useRef(0);
-  const [enemies, setEnemies] = useState([]);
-  const [plates, setPlates] = useState([]);
+  const [enemies, setEnemies] = useState<Enemy[]>([]);
+  const [plates, setPlates] = useState<Plate[]>([]);
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalCalories, setTotalCalories] = useState(0);
   const [isGameActive, setIsGameActive] = useState(true);
 
-  const movePlayer = useCallback((direction) => {
+  const movePlayer = useCallback((direction: number) => {
     playerVelocityRef.current = direction * 5;
   }, []);
 

@@ -1,6 +1,18 @@
 import React from "react";
 
-function ControlButtons({ onMoveLeft, onMoveRight, onStopMove, onShootPlate }) {
+interface ControlButtonsProps {
+  onMoveLeft: () => void;
+  onMoveRight: () => void;
+  onStopMove: () => void;
+  onShootPlate: () => void;
+}
+
+const ControlButtons: React.FC<ControlButtonsProps> = ({
+  onMoveLeft,
+  onMoveRight,
+  onStopMove,
+  onShootPlate,
+}) => {
   return (
     <div className="control-buttons">
       <button
@@ -34,6 +46,6 @@ function ControlButtons({ onMoveLeft, onMoveRight, onStopMove, onShootPlate }) {
       </button>
     </div>
   );
-}
+};
 
 export default ControlButtons;

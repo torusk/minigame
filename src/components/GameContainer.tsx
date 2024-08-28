@@ -3,7 +3,20 @@ import GameArea from "./GameArea";
 import GameInfo from "./GameInfo";
 import ControlButtons from "./ControlButtons";
 
-function GameContainer({
+interface GameContainerProps {
+  width: number;
+  height: number;
+  playerX: number;
+  enemies: Array<any>; // TODO: Define proper type for enemies
+  plates: Array<any>; // TODO: Define proper type for plates
+  score: number;
+  timeLeft: number;
+  onMovePlayer: (direction: number) => void;
+  onStopPlayer: () => void;
+  onShootPlate: () => void;
+}
+
+const GameContainer: React.FC<GameContainerProps> = ({
   width,
   height,
   playerX,
@@ -14,9 +27,9 @@ function GameContainer({
   onMovePlayer,
   onStopPlayer,
   onShootPlate,
-}) {
+}) => {
   const handleKeyDown = useCallback(
-    (e) => {
+    (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         onMovePlayer(-1);
       } else if (e.key === "ArrowRight") {
@@ -29,7 +42,7 @@ function GameContainer({
   );
 
   const handleKeyUp = useCallback(
-    (e) => {
+    (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         onStopPlayer();
       }
@@ -64,6 +77,6 @@ function GameContainer({
       />
     </div>
   );
-}
+};
 
 export default GameContainer;
