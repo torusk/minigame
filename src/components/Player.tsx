@@ -21,7 +21,7 @@ const Player: React.FC<PlayerProps> = ({ x }) => {
         fontSize: "75px",
       }}
     >
-      🐰
+      👯‍♀️
     </div>
   );
 };
