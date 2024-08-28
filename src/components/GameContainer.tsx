@@ -68,23 +68,25 @@ const GameContainer: React.FC<GameContainerProps> = ({
     <div className="game-container" data-testid="game-container">
       <GameArea
         width={width}
-        height={height}
+        height={height * 0.8}
         playerX={playerX}
         enemies={enemies}
         plates={plates}
       />
-      <GameInfo
-        score={score}
-        timeLeft={Math.ceil(timeLeft)}
-        totalCalories={totalCalories}
-      />
-      <ControlButtons
-        onMoveLeft={() => onMovePlayer(-1)}
-        onMoveRight={() => onMovePlayer(1)}
-        onStopMove={onStopPlayer}
-        onShootPlate={onShootPlate}
-        setVolume={setVolume}
-      />
+      <div className="game-controls">
+        <GameInfo
+          score={score}
+          timeLeft={Math.ceil(timeLeft)}
+          totalCalories={totalCalories}
+        />
+        <ControlButtons
+          onMoveLeft={() => onMovePlayer(-1)}
+          onMoveRight={() => onMovePlayer(1)}
+          onStopMove={onStopPlayer}
+          onShootPlate={onShootPlate}
+          setVolume={setVolume}
+        />
+      </div>
     </div>
   );
 };

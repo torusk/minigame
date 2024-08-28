@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
-  GAME_WIDTH,
   PLAYER_WIDTH,
-  GAME_HEIGHT,
   PLAYER_HEIGHT,
   ENEMY_SIZE,
   PLATE_SIZE,
@@ -14,9 +12,10 @@ function useGameLoop(
   setGameOver: (isOver: boolean) => void,
   setScore: React.Dispatch<React.SetStateAction<number>>,
   playPlateShoot: () => void,
-  playCollision: () => void
+  playCollision: () => void,
+  gameSize: { width: number; height: number }
 ) {
-  const playerXRef = useRef<number>(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
+  const playerXRef = useRef<number>(gameSize.width / 2 - PLAYER_WIDTH / 2);
   const [playerX, setPlayerX] = useState<number>(playerXRef.current);
   const playerVelocityRef = useRef<number>(0);
   const [enemies, setEnemies] = useState<Enemy[]>([]);
@@ -40,22 +39,22 @@ function useGameLoop(
       ...prevPlates,
       {
         x: playerXRef.current + PLAYER_WIDTH / 2 - PLATE_SIZE / 2,
-        y: GAME_HEIGHT - PLAYER_HEIGHT - PLATE_SIZE,
+        y: gameSize.height - PLAYER_HEIGHT - PLATE_SIZE,
       },
     ]);
-  }, [isGameActive, playPlateShoot]);
+  }, [isGameActive, playPlateShoot, gameSize.height]);
 
   const updatePlayerPosition = useCallback(() => {
     const newX = Math.max(
       0,
       Math.min(
-        GAME_WIDTH - PLAYER_WIDTH,
+        gameSize.width - PLAYER_WIDTH,
         playerXRef.current + playerVelocityRef.current
       )
     );
     playerXRef.current = newX;
     setPlayerX(newX);
-  }, []);
+  }, [gameSize.width]);
 
   useEffect(() => {
     const gameLoop = setInterval(() => {
@@ -66,7 +65,7 @@ function useGameLoop(
       setEnemies((prevEnemies) =>
         prevEnemies.filter((enemy) => {
           enemy.y += 2;
-          return enemy.y < GAME_HEIGHT;
+          return enemy.y < gameSize.height;
         })
       );
 
@@ -90,7 +89,7 @@ function useGameLoop(
           const collisionWithPlayer =
             enemy.x < playerXRef.current + PLAYER_WIDTH &&
             enemy.x + ENEMY_SIZE > playerXRef.current &&
-            enemy.y + ENEMY_SIZE > GAME_HEIGHT - PLAYER_HEIGHT;
+            enemy.y + ENEMY_SIZE > gameSize.height - PLAYER_HEIGHT;
 
           if (collisionWithPlate || collisionWithPlayer) {
             playCollision();
@@ -122,6 +121,7 @@ function useGameLoop(
     setScore,
     isGameActive,
     playCollision,
+    gameSize.height,
   ]);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ function useGameLoop(
       setEnemies((prevEnemies) => [
         ...prevEnemies,
         {
-          x: Math.random() * (GAME_WIDTH - ENEMY_SIZE),
+          x: Math.random() * (gameSize.width - ENEMY_SIZE),
           y: 0,
           type: Math.floor(Math.random() * CANDY_TYPES.length),
         },
@@ -139,7 +139,7 @@ function useGameLoop(
 
     const enemySpawner = setInterval(spawnEnemy, 1000);
     return () => clearInterval(enemySpawner);
-  }, [isGameActive]);
+  }, [isGameActive, gameSize.width]);
 
   return {
     playerX,

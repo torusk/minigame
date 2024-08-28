@@ -1,14 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import GameContainer from "./components/GameContainer";
 import GameOver from "./components/GameOver";
 import useGameLoop from "./hooks/useGameLoop";
 import useAudio from "./hooks/useAudio";
-import { GAME_WIDTH, GAME_HEIGHT } from "./constants";
 import "./App.css";
 
 function App() {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [gameSize, setGameSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
   const {
     isLoaded,
     playBgm,
@@ -28,7 +32,13 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
-  } = useGameLoop(setGameOver, setScore, playPlateShoot, playCollision);
+  } = useGameLoop(
+    setGameOver,
+    setScore,
+    playPlateShoot,
+    playCollision,
+    gameSize
+  );
 
   useEffect(() => {
     if (isLoaded) {
@@ -46,6 +56,17 @@ function App() {
     }
   }, [gameOver, stopBgm, playGameOver]);
 
+  const handleResize = useCallback(() => {
+    setGameSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
+
   if (gameOver) {
     return (
       <GameOver
@@ -58,8 +79,8 @@ function App() {
 
   return (
     <GameContainer
-      width={GAME_WIDTH}
-      height={GAME_HEIGHT}
+      width={gameSize.width}
+      height={gameSize.height}
       playerX={playerX}
       enemies={enemies}
       plates={plates}

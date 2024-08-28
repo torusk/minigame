@@ -19,8 +19,18 @@ const GameArea: React.FC<GameAreaProps> = ({
   enemies,
   plates,
 }) => {
+  const scale = Math.min(width / 800, height / 600);
+
   return (
-    <div className="game-area" style={{ width, height }}>
+    <div
+      className="game-area"
+      style={{
+        width,
+        height,
+        transform: `scale(${scale})`,
+        transformOrigin: "top left",
+      }}
+    >
       <Player x={playerX} />
       {enemies.map((enemy, index) => (
         <Enemy key={`enemy-${index}`} {...enemy} />
