@@ -2,18 +2,21 @@ import React, { useEffect, useCallback } from "react";
 import GameArea from "./GameArea";
 import GameInfo from "./GameInfo";
 import ControlButtons from "./ControlButtons";
+import { Enemy, Plate } from "../types";
 
 interface GameContainerProps {
   width: number;
   height: number;
   playerX: number;
-  enemies: Array<any>; // TODO: Define proper type for enemies
-  plates: Array<any>; // TODO: Define proper type for plates
+  enemies: Enemy[];
+  plates: Plate[];
   score: number;
   timeLeft: number;
+  totalCalories: number;
   onMovePlayer: (direction: number) => void;
   onStopPlayer: () => void;
   onShootPlate: () => void;
+  setVolume: (volume: number) => void;
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
@@ -24,9 +27,11 @@ const GameContainer: React.FC<GameContainerProps> = ({
   plates,
   score,
   timeLeft,
+  totalCalories,
   onMovePlayer,
   onStopPlayer,
   onShootPlate,
+  setVolume,
 }) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -68,12 +73,17 @@ const GameContainer: React.FC<GameContainerProps> = ({
         enemies={enemies}
         plates={plates}
       />
-      <GameInfo score={score} timeLeft={Math.ceil(timeLeft)} />
+      <GameInfo
+        score={score}
+        timeLeft={Math.ceil(timeLeft)}
+        totalCalories={totalCalories}
+      />
       <ControlButtons
         onMoveLeft={() => onMovePlayer(-1)}
         onMoveRight={() => onMovePlayer(1)}
         onStopMove={onStopPlayer}
         onShootPlate={onShootPlate}
+        setVolume={setVolume}
       />
     </div>
   );

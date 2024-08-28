@@ -8,17 +8,7 @@ import {
   PLATE_SIZE,
   CANDY_TYPES,
 } from "../constants";
-
-interface Enemy {
-  x: number;
-  y: number;
-  type: number;
-}
-
-interface Plate {
-  x: number;
-  y: number;
-}
+import { Enemy, Plate } from "../types";
 
 function useGameLoop(
   setGameOver: (isOver: boolean) => void,
@@ -26,14 +16,14 @@ function useGameLoop(
   playPlateShoot: () => void,
   playCollision: () => void
 ) {
-  const playerXRef = useRef(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
-  const [playerX, setPlayerX] = useState(playerXRef.current);
-  const playerVelocityRef = useRef(0);
+  const playerXRef = useRef<number>(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
+  const [playerX, setPlayerX] = useState<number>(playerXRef.current);
+  const playerVelocityRef = useRef<number>(0);
   const [enemies, setEnemies] = useState<Enemy[]>([]);
   const [plates, setPlates] = useState<Plate[]>([]);
-  const [timeLeft, setTimeLeft] = useState(30);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [isGameActive, setIsGameActive] = useState(true);
+  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [totalCalories, setTotalCalories] = useState<number>(0);
+  const [isGameActive, setIsGameActive] = useState<boolean>(true);
 
   const movePlayer = useCallback((direction: number) => {
     playerVelocityRef.current = direction * 5;
@@ -122,7 +112,7 @@ function useGameLoop(
         }
         return prevTime - 0.02;
       });
-    }, 16); // 約60FPSに調整
+    }, 16);
 
     return () => clearInterval(gameLoop);
   }, [

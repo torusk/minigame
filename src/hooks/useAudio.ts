@@ -5,7 +5,7 @@ function useAudio() {
   const gainNode = useRef<GainNode | null>(null);
   const sources = useRef<{ [key: string]: AudioBufferSourceNode }>({});
   const buffers = useRef<{ [key: string]: AudioBuffer }>({});
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const initAudio = useCallback(async () => {
     audioContext.current = new (window.AudioContext ||
@@ -45,65 +45,4 @@ function useAudio() {
     if (gainNode.current && audioContext.current) {
       gainNode.current.gain.setValueAtTime(
         volume,
-        audioContext.current.currentTime
-      );
-    }
-  }, []);
-
-  const playSound = useCallback(
-    (soundName: string, loop = false) => {
-      if (
-        !isLoaded ||
-        !buffers.current[soundName] ||
-        !audioContext.current ||
-        !gainNode.current
-      )
-        return;
-
-      if (sources.current[soundName]) {
-        sources.current[soundName].stop();
-      }
-
-      const source = audioContext.current.createBufferSource();
-      source.buffer = buffers.current[soundName];
-      source.connect(gainNode.current);
-      source.loop = loop;
-      source.start();
-      sources.current[soundName] = source;
-
-      return () => {
-        source.stop();
-        delete sources.current[soundName];
-      };
-    },
-    [isLoaded]
-  );
-
-  const stopSound = useCallback((soundName: string) => {
-    if (sources.current[soundName]) {
-      sources.current[soundName].stop();
-      delete sources.current[soundName];
-    }
-  }, []);
-
-  const playBgm = useCallback(() => playSound("bgm", true), [playSound]);
-  const stopBgm = useCallback(() => stopSound("bgm"), [stopSound]);
-  const playGameOver = useCallback(() => playSound("gameOver"), [playSound]);
-  const playPlateShoot = useCallback(
-    () => playSound("plateShoot"),
-    [playSound]
-  );
-  const playCollision = useCallback(() => playSound("collision"), [playSound]);
-
-  return {
-    isLoaded,
-    playBgm,
-    stopBgm,
-    playGameOver,
-    playPlateShoot,
-    playCollision,
-    setVolume,
-  };
-}
-
-export default useAudio;
+        audioContext

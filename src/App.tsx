@@ -7,8 +7,8 @@ import { GAME_WIDTH, GAME_HEIGHT } from "./constants";
 import "./App.css";
 
 function App() {
-  const [gameOver, setGameOver] = useState(false);
-  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
   const {
     isLoaded,
     playBgm,
