@@ -21,7 +21,7 @@ html {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #cccccc; /* 灰色の背景 */
+  background-color: #cccccc;
 }
 
 .game-area {
@@ -29,9 +29,9 @@ html {
   position: relative;
   overflow: hidden;
   background-color: #ffffff;
-  margin: 0 auto; /* 中央寄せ */
-  max-width: 800px; /* 最大幅を設定 */
-  max-height: calc(100% - 100px); /* コントロール部分の高さを考慮 */
+  margin: 0 auto;
+  max-width: 800px;
+  max-height: calc(100% - 100px);
 }
 
 .player,
@@ -47,11 +47,12 @@ html {
   align-items: center;
   padding: 10px;
   background-color: #e0e0e0;
-  height: 100px; /* コントロール部分の高さを調整 */
+  height: 100px;
 }
 
 .control-buttons {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -66,17 +67,10 @@ html {
   transition: background-color 0.3s;
 }
 
-.control-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
 .game-info {
   text-align: center;
 }
 
-/* トグルスイッチのスタイル */
 .switch {
   position: relative;
   display: inline-block;
@@ -120,4 +114,75 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(26px);
+}
+
+.game-over {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.game-over p {
+  margin: 10px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.game-over p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.game-over .line-0 {
+  font-size: 36px;
+  color: #ff6600;
+  font-weight: bold;
+}
+
+.game-over .line-1 {
+  font-size: 30px;
+  color: #0066cc;
+}
+
+.game-over .line-2 {
+  font-size: 28px;
+  color: #009933;
+}
+
+.game-over .line-3 {
+  font-size: 26px;
+  color: #cc3300;
+}
+
+.game-over button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s, background-color 0.3s;
+}
+
+.game-over button.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.game-over button:hover {
+  background-color: #45a049;
 }

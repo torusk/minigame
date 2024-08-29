@@ -21,7 +21,7 @@ function App() {
     playGameOver,
     playPlateShoot,
     playCollision,
-    setVolume,
+    toggleMute,
   } = useAudio();
 
   const {
@@ -72,17 +72,27 @@ function App() {
     };
   }, [handleResize]);
 
-  const toggleMute = useCallback(() => {
+  const handleToggleMute = useCallback(() => {
     setIsMuted((prev) => !prev);
-    setVolume(isMuted ? 1 : 0);
-  }, [isMuted, setVolume]);
+    toggleMute();
+  }, [toggleMute]);
+
+  const handleRestart = useCallback(() => {
+    setGameOver(false);
+    setScore(0);
+    // 他の必要なステートのリセット
+    if (!isMuted) {
+      playBgm();
+    }
+  }, [isMuted, playBgm]);
 
   if (gameOver) {
     return (
       <GameOver
         score={score}
         totalCalories={totalCalories}
-        onRestart={() => window.location.reload()}
+        onRestart={handleRestart}
+        playGameOver={playGameOver}
       />
     );
   }
@@ -98,7 +108,7 @@ function App() {
       onMovePlayer={movePlayer}
       onStopPlayer={stopPlayer}
       onShootPlate={shootPlate}
-      toggleMute={toggleMute}
+      toggleMute={handleToggleMute}
       isMuted={isMuted}
     />
   );
