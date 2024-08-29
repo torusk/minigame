@@ -31,7 +31,7 @@ const GameOver: React.FC<GameOverProps> = ({
   // 表示するテキストの配列
   const lines = [
     `🍽️${score}品GET🍽️`,
-    `🔥${totalCalories}カロリーのエネルギー量🔥`,
+    `🔥計${totalCalories}カロリー🔥`,
     "これを消費するには・・・",
     `🏃‍♀️${removeOccurrences(exerciseEquivalent)}をすればOK🏃‍♂️`,
   ];

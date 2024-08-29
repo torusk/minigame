@@ -19,8 +19,8 @@ const GameArea: React.FC<GameAreaProps> = ({
   enemies,
   plates,
 }) => {
-  const scale = Math.min(width / 800, height / 600);
-  const scaledWidth = 1200 * scale;
+  const scale = Math.min(width / 800, height / 500);
+  const scaledWidth = 800 * scale;
   const scaledHeight = 800 * scale;
 
   // プレイヤーの位置を制限する関数
