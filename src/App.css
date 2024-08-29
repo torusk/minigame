@@ -1,3 +1,4 @@
+/* 全体のスタイリング */
 body,
 html {
   margin: 0;
@@ -16,6 +17,7 @@ html {
   align-items: center;
 }
 
+/* ゲームコンテナのスタイリング */
 .game-container {
   width: 100%;
   height: 100%;
@@ -24,6 +26,7 @@ html {
   background-color: #cccccc;
 }
 
+/* ゲームエリアのスタイリング */
 .game-area {
   flex: 1;
   position: relative;
@@ -34,12 +37,14 @@ html {
   max-height: calc(100% - 100px);
 }
 
+/* ゲーム内の要素のスタイリング */
 .player,
 .enemy,
 .plate {
   position: absolute;
 }
 
+/* ゲームコントロール部分のスタイリング */
 .game-controls {
   display: flex;
   flex-direction: column;
@@ -71,6 +76,7 @@ html {
   text-align: center;
 }
 
+/* トグルスイッチのスタイリング */
 .switch {
   position: relative;
   display: inline-block;
@@ -116,6 +122,7 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+/* ゲームオーバー画面のスタイリング */
 .game-over {
   text-align: center;
   font-size: 24px;
@@ -142,6 +149,7 @@ input:checked + .slider:before {
   transform: translateY(0);
 }
 
+/* ゲームオーバー画面の各行のスタイリング */
 .game-over .line-0 {
   font-size: 36px;
   color: #ff6600;
@@ -163,6 +171,7 @@ input:checked + .slider:before {
   color: #cc3300;
 }
 
+/* ゲームオーバー画面のボタンスタイリング */
 .game-over button {
   margin-top: 20px;
   padding: 10px 20px;

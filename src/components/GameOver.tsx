@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { calculateExercise } from "../utils/calorieUtils";
 
+// GameOverコンポーネントのプロップスの型定義
 interface GameOverProps {
   score: number;
   totalCalories: number;
@@ -14,14 +15,20 @@ const GameOver: React.FC<GameOverProps> = ({
   onRestart,
   playGameOver,
 }) => {
+  // 現在表示中の行番号を管理するステート
   const [currentLine, setCurrentLine] = useState(0);
+  // リスタートボタンの表示状態を管理するステート
   const [showButton, setShowButton] = useState(false);
+
+  // 消費カロリーに相当する運動量を計算
   const exerciseEquivalent = calculateExercise(totalCalories);
 
+  // 運動量の表現から回数を削除する関数
   const removeOccurrences = (exercise: string): string => {
     return exercise.replace(/\d+回の/, "");
   };
 
+  // 表示するテキストの配列
   const lines = [
     `全部で${score}皿食べたよ！`,
     `${totalCalories}カロリー分のエネルギー量だよ！`,
@@ -29,6 +36,7 @@ const GameOver: React.FC<GameOverProps> = ({
     `${removeOccurrences(exerciseEquivalent)}をすればOKだよ。がんばって！`,
   ];
 
+  // テキストのアニメーション表示と効果音の再生を制御するeffect
   useEffect(() => {
     if (currentLine < lines.length) {
       const timer = setTimeout(() => {

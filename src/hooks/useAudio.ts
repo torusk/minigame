@@ -1,20 +1,26 @@
 import { useRef, useCallback, useEffect, useState } from "react";
 
 function useAudio() {
+  // オーディオコンテキストと各種ノードの参照を保持
   const audioContext = useRef<AudioContext | null>(null);
   const gainNode = useRef<GainNode | null>(null);
   const sources = useRef<{ [key: string]: AudioBufferSourceNode }>({});
   const buffers = useRef<{ [key: string]: AudioBuffer }>({});
+
+  // オーディオの読み込み状態とミュート状態を管理
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
+  // オーディオの初期化処理
   const initAudio = useCallback(async () => {
+    // オーディオコンテキストとゲインノードの作成
     audioContext.current = new (window.AudioContext ||
       (window as unknown as { webkitAudioContext: typeof AudioContext })
         .webkitAudioContext)();
     gainNode.current = audioContext.current.createGain();
     gainNode.current.connect(audioContext.current.destination);
 
+    // 使用する音声ファイルの定義
     const audioFiles: { [key: string]: string } = {
       bgm: "/game_bgm.mp3",
       gameOver: "/game_over.mp3",
@@ -22,6 +28,7 @@ function useAudio() {
       collision: "/collision.mp3",
     };
 
+    // 音声ファイルの読み込みと解読
     const loadPromises = Object.entries(audioFiles).map(async ([key, url]) => {
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
@@ -30,19 +37,23 @@ function useAudio() {
       );
     });
 
+    // 全ての音声ファイルの読み込みが完了したらフラグを更新
     await Promise.all(loadPromises);
     setIsLoaded(true);
   }, []);
 
+  // コンポーネントのマウント時にオーディオを初期化
   useEffect(() => {
     initAudio();
     return () => {
+      // コンポーネントのアンマウント時にオーディオコンテキストを閉じる
       if (audioContext.current) {
         audioContext.current.close();
       }
     };
   }, [initAudio]);
 
+  // 音量の設定
   const setVolume = useCallback((volume: number) => {
     if (gainNode.current && audioContext.current) {
       gainNode.current.gain.setValueAtTime(
@@ -52,11 +63,13 @@ function useAudio() {
     }
   }, []);
 
+  // ミュートの切り替え
   const toggleMute = useCallback(() => {
     setIsMuted((prev) => !prev);
     setVolume(isMuted ? 1 : 0);
   }, [isMuted, setVolume]);
 
+  // 音声の再生
   const playSound = useCallback(
     (soundName: string, loop = false): (() => void) | undefined => {
       if (
@@ -68,10 +81,12 @@ function useAudio() {
       )
         return;
 
+      // 既に再生中の場合は停止
       if (sources.current[soundName]) {
         sources.current[soundName].stop();
       }
 
+      // 新しい音源を作成して再生
       const source = audioContext.current.createBufferSource();
       source.buffer = buffers.current[soundName];
       source.connect(gainNode.current);
@@ -79,6 +94,7 @@ function useAudio() {
       source.start();
       sources.current[soundName] = source;
 
+      // 停止用の関数を返す
       return () => {
         source.stop();
         delete sources.current[soundName];
@@ -87,6 +103,7 @@ function useAudio() {
     [isLoaded, isMuted]
   );
 
+  // 音声の停止
   const stopSound = useCallback((soundName: string) => {
     if (sources.current[soundName]) {
       sources.current[soundName].stop();
@@ -94,6 +111,7 @@ function useAudio() {
     }
   }, []);
 
+  // 各種音声再生関数
   const playBgm = useCallback(() => playSound("bgm", true), [playSound]);
   const stopBgm = useCallback(() => stopSound("bgm"), [stopSound]);
   const playGameOver = useCallback(() => playSound("gameOver"), [playSound]);
@@ -103,6 +121,7 @@ function useAudio() {
   );
   const playCollision = useCallback(() => playSound("collision"), [playSound]);
 
+  // 外部から使用する関数とステートを返す
   return {
     isLoaded,
     playBgm,
