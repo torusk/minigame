@@ -30,10 +30,10 @@ const GameOver: React.FC<GameOverProps> = ({
 
   // 表示するテキストの配列
   const lines = [
-    `全部で${score}皿食べたよ！`,
-    `${totalCalories}カロリー分のエネルギー量だよ！`,
+    `${score}皿ゲット！！`,
+    `${totalCalories}カロリーのエネルギー量だ🔥`,
     "これを消費するには・・・",
-    `${removeOccurrences(exerciseEquivalent)}をすればOKだよ。がんばって！`,
+    `${removeOccurrences(exerciseEquivalent)}をすればOKだよ。`,
   ];
 
   // テキストのアニメーション表示と効果音の再生を制御するeffect
@@ -42,7 +42,7 @@ const GameOver: React.FC<GameOverProps> = ({
       const timer = setTimeout(() => {
         playGameOver();
         setCurrentLine((prev) => prev + 1);
-      }, 1000);
+      }, 200);
       return () => clearTimeout(timer);
     } else if (currentLine === lines.length) {
       const buttonTimer = setTimeout(() => {

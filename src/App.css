@@ -63,8 +63,9 @@ html {
 
 .control-buttons button {
   padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4caf50;
+  font-size: 30px;
+  font-weight: bold;
+  background-color: #f5a638;
   color: white;
   border: none;
   border-radius: 5px;
@@ -124,7 +125,7 @@ input:checked + .slider:before {
 
 /* ゲームオーバー画面のスタイリング */
 .game-over {
-  text-align: center;
+  text-align: left;
   font-size: 24px;
   color: #333;
   position: absolute;
@@ -151,32 +152,34 @@ input:checked + .slider:before {
 
 /* ゲームオーバー画面の各行のスタイリング */
 .game-over .line-0 {
-  font-size: 36px;
-  color: #ff6600;
+  font-size: 34px;
+  color: #030303;
   font-weight: bold;
 }
 
 .game-over .line-1 {
-  font-size: 30px;
-  color: #0066cc;
+  font-size: 34px;
+  color: #030303;
+  font-weight: bold;
 }
 
 .game-over .line-2 {
-  font-size: 28px;
-  color: #009933;
+  font-size: 20px;
+  color: #030303;
 }
 
 .game-over .line-3 {
-  font-size: 26px;
-  color: #cc3300;
+  font-size: 34px;
+  color: #fb0606;
 }
 
 /* ゲームオーバー画面のボタンスタイリング */
 .game-over button {
+  text-align: center;
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 20px;
-  background-color: #4caf50;
+  background-color: #49e4dd;
   color: white;
   border: none;
   border-radius: 5px;
@@ -193,5 +196,5 @@ input:checked + .slider:before {
 }
 
 .game-over button:hover {
-  background-color: #45a049;
+  background-color: #4788e8;
 }
