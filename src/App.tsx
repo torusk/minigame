@@ -8,6 +8,7 @@ import "./App.css";
 function App() {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [gameSize, setGameSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -32,7 +33,6 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
-    gamePhase, // 追加
   } = useGameLoop(
     setGameOver,
     setScore,
@@ -42,31 +42,40 @@ function App() {
   );
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && !isMuted) {
       playBgm();
     }
     return () => {
       stopBgm();
     };
-  }, [isLoaded, playBgm, stopBgm]);
+  }, [isLoaded, isMuted, playBgm, stopBgm]);
 
   useEffect(() => {
-    if (gameOver) {
+    if (gameOver && !isMuted) {
       stopBgm();
       playGameOver();
     }
-  }, [gameOver, stopBgm, playGameOver]);
+  }, [gameOver, isMuted, stopBgm, playGameOver]);
 
   const handleResize = useCallback(() => {
-    setGameSize({ width: window.innerWidth, height: window.innerHeight });
+    setGameSize({
+      width: window.innerWidth,
+      height: window.innerHeight - 100,
+    });
   }, []);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
+    handleResize();
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [handleResize]);
+
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => !prev);
+    setVolume(isMuted ? 1 : 0);
+  }, [isMuted, setVolume]);
 
   if (gameOver) {
     return (
@@ -85,14 +94,12 @@ function App() {
       playerX={playerX}
       enemies={enemies}
       plates={plates}
-      score={score}
       timeLeft={timeLeft}
-      totalCalories={totalCalories}
-      gamePhase={gamePhase} // 追加
       onMovePlayer={movePlayer}
       onStopPlayer={stopPlayer}
       onShootPlate={shootPlate}
-      setVolume={setVolume}
+      toggleMute={toggleMute}
+      isMuted={isMuted}
     />
   );
 }

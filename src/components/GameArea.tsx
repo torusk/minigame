@@ -20,23 +20,34 @@ const GameArea: React.FC<GameAreaProps> = ({
   plates,
 }) => {
   const scale = Math.min(width / 800, height / 600);
+  const scaledWidth = 800 * scale;
+  const scaledHeight = 600 * scale;
+
+  // プレイヤーの位置を制限する関数
+  const clampPlayerX = (x: number) =>
+    Math.max(0, Math.min(x, scaledWidth - 50)); // 50はプレイヤーの幅
 
   return (
     <div
       className="game-area"
       style={{
-        width,
-        height,
-        transform: `scale(${scale})`,
-        transformOrigin: "top left",
+        width: scaledWidth,
+        height: scaledHeight,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <Player x={playerX} />
+      <Player x={clampPlayerX(playerX * scale)} />
       {enemies.map((enemy, index) => (
-        <Enemy key={`enemy-${index}`} {...enemy} />
+        <Enemy
+          key={`enemy-${index}`}
+          x={enemy.x * scale}
+          y={enemy.y * scale}
+          type={enemy.type}
+        />
       ))}
       {plates.map((plate, index) => (
-        <Plate key={`plate-${index}`} {...plate} />
+        <Plate key={`plate-${index}`} x={plate.x * scale} y={plate.y * scale} />
       ))}
     </div>
   );

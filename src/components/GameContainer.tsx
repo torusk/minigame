@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from "react";
 import GameArea from "./GameArea";
-import GameInfo from "./GameInfo";
 import ControlButtons from "./ControlButtons";
 import { Enemy, Plate } from "../types";
 
@@ -10,14 +9,12 @@ interface GameContainerProps {
   playerX: number;
   enemies: Enemy[];
   plates: Plate[];
-  score: number;
   timeLeft: number;
-  totalCalories: number;
-  gamePhase: "normal" | "intense"; // 追加
   onMovePlayer: (direction: number) => void;
   onStopPlayer: () => void;
   onShootPlate: () => void;
-  setVolume: (volume: number) => void;
+  toggleMute: () => void;
+  isMuted: boolean;
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
@@ -26,14 +23,12 @@ const GameContainer: React.FC<GameContainerProps> = ({
   playerX,
   enemies,
   plates,
-  score,
   timeLeft,
-  totalCalories,
-  gamePhase, // 追加
   onMovePlayer,
   onStopPlayer,
   onShootPlate,
-  setVolume,
+  toggleMute,
+  isMuted,
 }) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -66,28 +61,26 @@ const GameContainer: React.FC<GameContainerProps> = ({
     };
   }, [handleKeyDown, handleKeyUp]);
 
+  const gameAreaHeight = height - 100;
+
   return (
     <div className="game-container" data-testid="game-container">
       <GameArea
         width={width}
-        height={height * 0.8}
+        height={gameAreaHeight}
         playerX={playerX}
         enemies={enemies}
         plates={plates}
       />
       <div className="game-controls">
-        <GameInfo
-          score={score}
-          timeLeft={Math.ceil(timeLeft)}
-          totalCalories={totalCalories}
-          gamePhase={gamePhase} // 追加
-        />
         <ControlButtons
           onMoveLeft={() => onMovePlayer(-1)}
           onMoveRight={() => onMovePlayer(1)}
           onStopMove={onStopPlayer}
           onShootPlate={onShootPlate}
-          setVolume={setVolume}
+          toggleMute={toggleMute}
+          isMuted={isMuted}
+          timeLeft={timeLeft}
         />
       </div>
     </div>

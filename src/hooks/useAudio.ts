@@ -6,6 +6,7 @@ function useAudio() {
   const sources = useRef<{ [key: string]: AudioBufferSourceNode }>({});
   const buffers = useRef<{ [key: string]: AudioBuffer }>({});
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const initAudio = useCallback(async () => {
     audioContext.current = new (window.AudioContext ||
@@ -51,13 +52,19 @@ function useAudio() {
     }
   }, []);
 
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => !prev);
+    setVolume(isMuted ? 1 : 0);
+  }, [isMuted, setVolume]);
+
   const playSound = useCallback(
     (soundName: string, loop = false): (() => void) | undefined => {
       if (
         !isLoaded ||
         !buffers.current[soundName] ||
         !audioContext.current ||
-        !gainNode.current
+        !gainNode.current ||
+        isMuted
       )
         return;
 
@@ -77,7 +84,7 @@ function useAudio() {
         delete sources.current[soundName];
       };
     },
-    [isLoaded]
+    [isLoaded, isMuted]
   );
 
   const stopSound = useCallback((soundName: string) => {
@@ -104,6 +111,8 @@ function useAudio() {
     playPlateShoot,
     playCollision,
     setVolume,
+    toggleMute,
+    isMuted,
   };
 }
 

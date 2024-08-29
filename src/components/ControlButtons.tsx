@@ -5,7 +5,9 @@ interface ControlButtonsProps {
   onMoveRight: () => void;
   onStopMove: () => void;
   onShootPlate: () => void;
-  setVolume: (volume: number) => void; // この行を追加
+  toggleMute: () => void;
+  isMuted: boolean;
+  timeLeft: number;
 }
 
 const ControlButtons: React.FC<ControlButtonsProps> = ({
@@ -13,12 +15,13 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
   onMoveRight,
   onStopMove,
   onShootPlate,
-  setVolume, // この行を追加
+  toggleMute,
+  isMuted,
+  timeLeft,
 }) => {
   return (
     <div className="control-buttons">
       <button
-        className="control-button left"
         onTouchStart={onMoveLeft}
         onMouseDown={onMoveLeft}
         onTouchEnd={onStopMove}
@@ -27,17 +30,10 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
       >
         ←
       </button>
-      <button
-        className="control-button shoot"
-        onTouchStart={onShootPlate}
-        onMouseDown={onShootPlate}
-        onTouchEnd={(e) => e.preventDefault()}
-        onMouseUp={(e) => e.preventDefault()}
-      >
+      <button onTouchStart={onShootPlate} onMouseDown={onShootPlate}>
         🍽️
       </button>
       <button
-        className="control-button right"
         onTouchStart={onMoveRight}
         onMouseDown={onMoveRight}
         onTouchEnd={onStopMove}
@@ -46,14 +42,8 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
       >
         →
       </button>
-      {/* ボリューム調整用のスライダーを追加 */}
-      <input
-        type="range"
-        min="0"
-        max="1"
-        step="0.1"
-        onChange={(e) => setVolume(parseFloat(e.target.value))}
-      />
+      <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
+      <span>残り時間: {Math.ceil(timeLeft)}秒</span>
     </div>
   );
 };

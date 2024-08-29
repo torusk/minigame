@@ -8,12 +8,9 @@ import {
 } from "../constants";
 import { Enemy, Plate } from "../types";
 
-// ゲームの設定（後から調整可能）
-const GAME_DURATION = 30; // ゲームの総時間（秒）
-const INTENSE_PHASE_DURATION = 10; // インテンスフェーズの時間（秒）
-const INTENSE_SPAWN_MULTIPLIER = 5; // インテンスフェーズでのスポーン倍率
-// const NORMAL_SPAWN_INTERVAL = 1000; // 通常フェーズでのスポーン間隔（ミリ秒）
-// const INTENSE_SPAWN_INTERVAL = 200; // インテンスフェーズでのスポーン間隔（ミリ秒）
+const GAME_DURATION = 30;
+const INTENSE_PHASE_DURATION = 10;
+const INTENSE_SPAWN_MULTIPLIER = 5;
 
 function useGameLoop(
   setGameOver: (isOver: boolean) => void,
@@ -117,7 +114,6 @@ function useGameLoop(
           setGameOver(true);
           return 0;
         }
-        // ここでフェーズを切り替える
         if (prevTime <= INTENSE_PHASE_DURATION && gamePhase === "normal") {
           setGamePhase("intense");
         }
@@ -140,7 +136,6 @@ function useGameLoop(
   useEffect(() => {
     const spawnEnemy = () => {
       if (!isGameActive) return;
-      // フェーズに応じてスポーン数を調整
       const spawnCount = gamePhase === "intense" ? INTENSE_SPAWN_MULTIPLIER : 1;
       for (let i = 0; i < spawnCount; i++) {
         setEnemies((prevEnemies) => [
@@ -154,8 +149,7 @@ function useGameLoop(
       }
     };
 
-    // フェーズに応じてスポーン間隔を調整
-    const spawnInterval = gamePhase === "intense" ? 200 : 1000; // ミリ秒
+    const spawnInterval = gamePhase === "intense" ? 200 : 1000;
     const enemySpawner = setInterval(spawnEnemy, spawnInterval);
     return () => clearInterval(enemySpawner);
   }, [isGameActive, gameSize.width, gamePhase]);
