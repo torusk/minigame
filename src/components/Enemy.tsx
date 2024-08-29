@@ -20,7 +20,7 @@ const Enemy: React.FC<EnemyProps> = ({ x, y, type }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: "50px",
+        fontSize: "45px",
       }}
     >
       {CANDY_TYPES[type].emoji}

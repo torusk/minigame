@@ -1,7 +1,7 @@
 export const GAME_WIDTH = 800;
 export const GAME_HEIGHT = 600;
-export const PLAYER_WIDTH = 50;
-export const PLAYER_HEIGHT = 50;
+export const PLAYER_WIDTH = 40;
+export const PLAYER_HEIGHT = 40;
 export const ENEMY_SIZE = 30;
 export const PLATE_SIZE = 30;
 export const BULLET_SIZE = 10;
@@ -38,48 +38,48 @@ interface ExerciseEquivalent {
 }
 
 export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
-  { calories: 1000, exercise: "2時間で東京から横浜までのジョギング" },
-  { calories: 2000, exercise: "4時間で東京から千葉までのマラソン" },
+  { calories: 1000, exercise: "2時間で東京から横浜までジョギング" },
+  { calories: 2000, exercise: "4時間で東京から千葉までマラソン" },
   { calories: 3000, exercise: "6時間で東京から高尾山往復ハイキング" },
-  { calories: 4000, exercise: "8時間で東京から熱海までのウルトラマラソン" },
-  { calories: 5000, exercise: "10時間で東京から箱根までの山岳サイクリング" },
+  { calories: 4000, exercise: "8時間で東京から熱海までウルトラマラソン" },
+  { calories: 5000, exercise: "10時間で東京から箱根まで山岳サイクリング" },
   { calories: 6000, exercise: "12時間で富士山頂上往復登山" },
   { calories: 7000, exercise: "14時間で東京湾一周サイクリング" },
   {
     calories: 8000,
-    exercise: "16時間で東京から軽井沢までのトレイルランニング",
+    exercise: "16時間で東京から軽井沢までトレイルランニング",
   },
-  { calories: 9000, exercise: "18時間で東京から静岡までの長距離ウォーキング" },
+  { calories: 9000, exercise: "18時間で東京から静岡まで長距離ウォーキング" },
   {
     calories: 10000,
-    exercise: "20時間で東京から名古屋までの長距離サイクリング",
+    exercise: "20時間で東京から名古屋までサイクリング",
   },
   { calories: 11000, exercise: "22時間で富士五湖一周ランニング" },
-  { calories: 12000, exercise: "24時間で東京から長野までの山岳マラソン" },
+  { calories: 12000, exercise: "24時間で東京から長野まで山岳マラソン" },
   { calories: 13000, exercise: "26時間で東海道五十三次部分ウォーキング" },
   {
     calories: 14000,
-    exercise: "28時間で東京から金沢までの超長距離サイクリング",
+    exercise: "28時間で東京から金沢までサイクリング",
   },
   {
     calories: 15000,
-    exercise: "30時間で東京から大阪までの新幹線並走ランニング",
+    exercise: "30時間で東京から大阪まで新幹線並走ランニング",
   },
   { calories: 16000, exercise: "32時間で四国一周部分ウォーキング" },
   { calories: 17000, exercise: "34時間で本州横断部分ウルトラマラソン" },
   {
     calories: 18000,
-    exercise: "36時間で東京から広島までの超長距離サイクリング",
+    exercise: "36時間で東京から広島までサイクリング",
   },
   {
     calories: 19000,
-    exercise: "38時間で東京から福岡までの新幹線並走ランニング",
+    exercise: "38時間で東京から福岡まで新幹線並走ランニング",
   },
   {
     calories: 20000,
-    exercise: "40時間で大阪から札幌までの日本縦断部分ウォーキング",
+    exercise: "40時間で大阪から札幌まで日本縦断ウォーキング",
   },
-  { calories: 21000, exercise: "42時間で北海道一周部分サイクリング" },
+  { calories: 21000, exercise: "42時間で北海道一周サイクリング" },
   { calories: 22000, exercise: "44時間で沖縄本島一周マラソン" },
   {
     calories: 23000,
@@ -88,7 +88,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   { calories: 24000, exercise: "48時間で日本アルプス全山脈縦走ハイキング" },
   {
     calories: 25000,
-    exercise: "50時間で東京から那覇までの日本縦断ウルトラマラソン",
+    exercise: "50時間で東京から那覇まで日本縦断ウルトラマラソン",
   },
   { calories: 26000, exercise: "52時間で北海道から九州までの自転車日本縦断" },
   { calories: 27000, exercise: "54時間で日本百名山部分登頂チャレンジ" },
@@ -99,10 +99,10 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   { calories: 32000, exercise: "64時間で中部地方山岳地帯完全縦断トレッキング" },
   { calories: 33000, exercise: "66時間で九州七県完全巡回サイクリング" },
   { calories: 34000, exercise: "68時間で近畿地方全府県庁所在地巡回マラソン" },
-  { calories: 35000, exercise: "70時間で青森から大阪までの本州横断ランニング" },
+  { calories: 35000, exercise: "70時間で青森から大阪まで本州横断ランニング" },
   {
     calories: 36000,
-    exercise: "72時間で北海道から鹿児島までの日本列島縦断ウォーキング",
+    exercise: "72時間で北海道から鹿児島まで日本列島縦断ウォーキング",
   },
   {
     calories: 37000,
@@ -124,7 +124,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   { calories: 42000, exercise: "84時間で日本全国の世界遺産を巡る文化マラソン" },
   {
     calories: 43000,
-    exercise: "86時間で日本列島を横断する超長距離クロスカントリースキー",
+    exercise: "86時間で日本列島を横断するクロスカントリースキー",
   },
   {
     calories: 44000,

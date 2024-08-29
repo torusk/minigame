@@ -20,12 +20,12 @@ const GameArea: React.FC<GameAreaProps> = ({
   plates,
 }) => {
   const scale = Math.min(width / 800, height / 600);
-  const scaledWidth = 800 * scale;
-  const scaledHeight = 600 * scale;
+  const scaledWidth = 1200 * scale;
+  const scaledHeight = 800 * scale;
 
   // プレイヤーの位置を制限する関数
   const clampPlayerX = (x: number) =>
-    Math.max(0, Math.min(x, scaledWidth - 50)); // 50はプレイヤーの幅
+    Math.max(0, Math.min(x, scaledWidth - 40)); // 50はプレイヤーの幅
 
   return (
     <div

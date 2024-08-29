@@ -149,7 +149,7 @@ function useGameLoop(
       }
     };
 
-    const spawnInterval = gamePhase === "intense" ? 200 : 1000;
+    const spawnInterval = gamePhase === "intense" ? 200 : 1500;
     const enemySpawner = setInterval(spawnEnemy, spawnInterval);
     return () => clearInterval(enemySpawner);
   }, [isGameActive, gameSize.width, gamePhase]);

@@ -21,6 +21,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
 }) => {
   return (
     <div className="control-buttons">
+      <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
       <button
         onTouchStart={onMoveLeft}
         onMouseDown={onMoveLeft}
@@ -28,7 +29,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
         onMouseUp={onStopMove}
         onMouseLeave={onStopMove}
       >
-        ←
+        ⬅️
       </button>
       <button onTouchStart={onShootPlate} onMouseDown={onShootPlate}>
         🍽️
@@ -40,10 +41,9 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
         onMouseUp={onStopMove}
         onMouseLeave={onStopMove}
       >
-        →
+        ➡️
       </button>
-      <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
-      <span>残り時間: {Math.ceil(timeLeft)}秒</span>
+      <span className="time">あと{Math.ceil(timeLeft)}秒</span>
     </div>
   );
 };

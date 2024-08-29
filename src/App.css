@@ -65,12 +65,18 @@ html {
   padding: 10px 20px;
   font-size: 30px;
   font-weight: bold;
-  background-color: #f5a638;
-  color: white;
+  background-color: white;
+  color: black;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.time {
+  font-size: 36px;
+  color: #030303;
+  font-weight: bold;
 }
 
 .game-info {
