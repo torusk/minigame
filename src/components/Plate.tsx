@@ -16,10 +16,10 @@ const Plate: React.FC<PlateProps> = ({ x, y }) => {
         width: PLATE_SIZE,
         height: PLATE_SIZE,
         position: "absolute",
-        fontSize: "40px",
+        fontSize: "60px",
       }}
     >
-      🍽️
+      🍴
     </div>
   );
 };

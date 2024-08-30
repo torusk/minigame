@@ -28,9 +28,9 @@ const GameOver: React.FC<GameOverProps> = ({
 
   const lines = [
     `🍽️${score}品、計${totalCalories}kal🍽️`,
-    `${Math.round(totalCalories / 2000)}日分のエネルギー🔥`,
+    `🔥${Math.round(totalCalories / 2000)}日分のエネルギー🔥`,
     "これを消費するには",
-    `🏃‍♀️${removeOccurrences(exerciseEquivalent)}をすればOK🏃‍♂️`,
+    `${removeOccurrences(exerciseEquivalent)}をすればOK🏃‍♂️`,
   ];
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const GameOver: React.FC<GameOverProps> = ({
       const timer = setTimeout(() => {
         playGameOver();
         setCurrentLine((prev) => prev + 1);
-      }, 450);
+      }, 400);
       return () => clearTimeout(timer);
     } else if (currentLine === 2) {
       const dotTimer = setInterval(() => {
@@ -51,13 +51,13 @@ const GameOver: React.FC<GameOverProps> = ({
             return prevDots;
           }
         });
-      }, 500); // ドットの表示間隔を500ミリ秒に変更
+      }, 500);
       return () => clearInterval(dotTimer);
     } else if (currentLine === 3) {
-      playFinish(); // 最後の行を表示する際に新しい音源を再生
+      playFinish();
       const buttonTimer = setTimeout(() => {
         setShowButton(true);
-      }, 2000);
+      }, 1000);
       return () => clearTimeout(buttonTimer);
     }
   }, [currentLine, playGameOver, playFinish]);
@@ -66,7 +66,7 @@ const GameOver: React.FC<GameOverProps> = ({
     const text = `スイーツミニゲームで${score}品GET！計${totalCalories}カロリー消費には${removeOccurrences(
       exerciseEquivalent
     )}が必要！`;
-    const url = "sweets-minigame.web.app"; // ゲームのURLに置き換えてください
+    const url = "sweets-minigame.web.app";
     const hashtags = "スイーツミニゲーム,カロリー消費";
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -81,7 +81,9 @@ const GameOver: React.FC<GameOverProps> = ({
       {lines.map((line, index) => (
         <p
           key={index}
-          className={`line-${index} ${index <= currentLine ? "visible" : ""}`}
+          className={`line-${index} ${index <= currentLine ? "visible" : ""} ${
+            index === 0 ? "blue-underline" : index === 1 ? "red-underline" : ""
+          }`}
         >
           {index === 2 ? `${line}${"・".repeat(dots)}` : line}
         </p>

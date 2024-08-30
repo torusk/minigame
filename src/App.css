@@ -75,8 +75,6 @@ html {
   transition: background-color 0.3s;
 }
 
-/* ... 既存のスタイル ... */
-
 /* ゲームヘッダーのスタイリング */
 .game-header {
   background-color: #e0e0e0;
@@ -88,7 +86,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 1px;
 }
 
 .game-header button {
@@ -107,8 +105,6 @@ html {
 .time.intense {
   color: #fb0606;
 }
-
-/* ... 残りのスタイル ... */
 
 /* 残りのスタイルは変更なし */
 
@@ -161,6 +157,43 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+/* アンダーラインアニメーション */
+.blue-underline::after,
+.red-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 3px;
+  animation: underline-animation 1s ease-in-out forwards;
+}
+
+.blue-underline::after {
+  background-color: #1da1f2;
+}
+
+.red-underline::after {
+  background-color: #1da1f2;
+}
+
+@keyframes underline-animation {
+  to {
+    width: 100%;
+  }
+}
+
+/* ゲームオーバー画面の既存のスタイルを調整 */
+.game-over p {
+  margin: 10px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+  position: relative; /* アンダーラインの位置決めのため */
+}
+
+/* ... 残りの既存のスタイル ... */
 
 /* ゲームオーバー画面のスタイリング */
 .game-over {

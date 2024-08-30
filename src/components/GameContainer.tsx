@@ -82,9 +82,11 @@ const GameContainer: React.FC<GameContainerProps> = ({
       <div className="game-header">
         <div className="game-header-content">
           <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
+          あと
           <span className={`time ${gamePhase === "intense" ? "intense" : ""}`}>
-            のこり{Math.ceil(timeLeft)}秒
+            {Math.ceil(timeLeft)}
           </span>
+          秒
         </div>
       </div>
       <GameArea
