@@ -3,51 +3,36 @@ import Player from "./Player";
 import Enemy from "./Enemy";
 import Plate from "./Plate";
 import { Enemy as EnemyType, Plate as PlateType } from "../types";
+import { PLAYER_WIDTH } from "../constants";
 
 interface GameAreaProps {
-  width: number;
-  height: number;
   playerX: number;
   enemies: EnemyType[];
   plates: PlateType[];
 }
 
-const GameArea: React.FC<GameAreaProps> = ({
-  width,
-  height,
-  playerX,
-  enemies,
-  plates,
-}) => {
-  const scale = Math.min(width / 800, height / 500);
-  const scaledWidth = 800 * scale;
-  const scaledHeight = 800 * scale;
+const GameArea: React.FC<GameAreaProps> = ({ playerX, enemies, plates }) => {
+  const gameAreaRef = React.useRef<HTMLDivElement>(null);
 
-  // プレイヤーの位置を制限する関数
-  const clampPlayerX = (x: number) =>
-    Math.max(0, Math.min(x, scaledWidth - 40)); // 50はプレイヤーの幅
+  const clampPlayerX = (x: number): number => {
+    if (!gameAreaRef.current) return x;
+    const gameAreaWidth = gameAreaRef.current.clientWidth;
+    return Math.max(0, Math.min(x, gameAreaWidth - PLAYER_WIDTH));
+  };
 
   return (
-    <div
-      className="game-area"
-      style={{
-        width: scaledWidth,
-        height: scaledHeight,
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <Player x={clampPlayerX(playerX * scale)} />
+    <div className="game-area" ref={gameAreaRef}>
+      <Player x={clampPlayerX(playerX)} />
       {enemies.map((enemy, index) => (
         <Enemy
           key={`enemy-${index}`}
-          x={enemy.x * scale}
-          y={enemy.y * scale}
+          x={enemy.x}
+          y={enemy.y}
           type={enemy.type}
         />
       ))}
       {plates.map((plate, index) => (
-        <Plate key={`plate-${index}`} x={plate.x * scale} y={plate.y * scale} />
+        <Plate key={`plate-${index}`} x={plate.x} y={plate.y} />
       ))}
     </div>
   );

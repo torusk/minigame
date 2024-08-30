@@ -1,11 +1,10 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import GameArea from "./GameArea";
 import ControlButtons from "./ControlButtons";
 import { Enemy, Plate } from "../types";
+import { PLAYER_WIDTH } from "../constants";
 
 interface GameContainerProps {
-  width: number;
-  height: number;
   playerX: number;
   enemies: Enemy[];
   plates: Plate[];
@@ -18,8 +17,6 @@ interface GameContainerProps {
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
-  width,
-  height,
   playerX,
   enemies,
   plates,
@@ -30,6 +27,14 @@ const GameContainer: React.FC<GameContainerProps> = ({
   toggleMute,
   isMuted,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const clampPlayerX = useCallback((x: number): number => {
+    if (!containerRef.current) return x;
+    const containerWidth = containerRef.current.clientWidth;
+    return Math.max(0, Math.min(x, containerWidth - PLAYER_WIDTH));
+  }, []);
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
@@ -61,14 +66,14 @@ const GameContainer: React.FC<GameContainerProps> = ({
     };
   }, [handleKeyDown, handleKeyUp]);
 
-  const gameAreaHeight = height - 100;
-
   return (
-    <div className="game-container" data-testid="game-container">
+    <div
+      className="game-container"
+      data-testid="game-container"
+      ref={containerRef}
+    >
       <GameArea
-        width={width}
-        height={gameAreaHeight}
-        playerX={playerX}
+        playerX={clampPlayerX(playerX)}
         enemies={enemies}
         plates={plates}
       />
