@@ -22,7 +22,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
         onMouseUp={onStopMove}
         onMouseLeave={onStopMove}
       >
-        ⬅️
+        ◀️
       </button>
       <button onTouchStart={onShootPlate} onMouseDown={onShootPlate}>
         🍽️
@@ -34,7 +34,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
         onMouseUp={onStopMove}
         onMouseLeave={onStopMove}
       >
-        ➡️
+        ▶️
       </button>
     </div>
   );

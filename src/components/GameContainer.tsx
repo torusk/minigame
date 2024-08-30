@@ -81,8 +81,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
     >
       <div className="game-header">
         <div className="game-header-content">
-          <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
-          あと
+          <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>残
           <span className={`time ${gamePhase === "intense" ? "intense" : ""}`}>
             {Math.ceil(timeLeft)}
           </span>

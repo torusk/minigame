@@ -269,11 +269,11 @@ input:checked + .slider:before {
 }
 
 .game-over button.restart-button {
-  background-color: red;
+  background-color: #1da1f2;
 }
 
 .game-over button.share-button {
-  background-color: #1da1f2;
+  background-color: #000002;
 }
 
 .game-over button.restart-button:hover,

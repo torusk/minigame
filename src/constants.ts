@@ -21,15 +21,15 @@ export const CANDY_TYPES: CandyType[] = [
   { emoji: "🍩", calories: 200 },
   { emoji: "🍰", calories: 20 },
   { emoji: "🍨", calories: 25 },
-  { emoji: "🥮", calories: 30 },
-  { emoji: "🧇", calories: 50 },
+  { emoji: "🍡", calories: 30 },
+  { emoji: "🍷", calories: 50 },
   { emoji: "🍘", calories: 150 },
   { emoji: "🍜", calories: 450 },
   { emoji: "🍛", calories: 650 },
   { emoji: "🍙", calories: 400 },
   { emoji: "🍖", calories: 800 },
   { emoji: "🍣", calories: 80 },
-  { emoji: "🍤", calories: 150 },
+  { emoji: "🦀", calories: 150 },
 ];
 
 interface ExerciseEquivalent {
@@ -91,7 +91,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
     exercise: "50時間で東京から那覇まで日本縦断ウルトラマラソン",
   },
   { calories: 26000, exercise: "52時間で北海道から九州までの自転車日本縦断" },
-  { calories: 27000, exercise: "54時間で日本百名山登頂チャレンジ" },
+  { calories: 27000, exercise: "54時間で日本百名山10座登頂" },
   { calories: 28000, exercise: "56時間で日本海沿岸サイクリング" },
   { calories: 29000, exercise: "58時間で太平洋沿岸ウルトラマラソン" },
   { calories: 30000, exercise: "60時間で四国八十八箇所巡礼ウォーキング" },
@@ -108,7 +108,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
     calories: 37000,
     exercise: "74時間で日本のすべての県庁所在地を巡るサイクリング",
   },
-  { calories: 38000, exercise: "76時間で日本百名山完全制覇登山チャレンジ" },
+  { calories: 38000, exercise: "76時間で日本百名山完全制覇登山" },
   {
     calories: 39000,
     exercise: "78時間で本州の海岸線を完全に走破するビーチランニング",
