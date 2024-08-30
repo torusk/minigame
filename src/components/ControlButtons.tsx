@@ -43,7 +43,7 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
       >
         ➡️
       </button>
-      <span className="time">あと{Math.ceil(timeLeft)}秒</span>
+      <span className="time">のこり{Math.ceil(timeLeft)}秒</span>
     </div>
   );
 };

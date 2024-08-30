@@ -92,7 +92,7 @@ const GameOver: React.FC<GameOverProps> = ({
             もういちどあそぶ
           </button>
           <button onClick={shareOnTwitter} className="visible share-button">
-            X(旧Twitter)で共有
+            X(Twitter)で共有
           </button>
         </div>
       )}

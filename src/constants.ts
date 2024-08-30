@@ -49,14 +49,14 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
     calories: 8000,
     exercise: "16時間で東京から軽井沢までトレイルランニング",
   },
-  { calories: 9000, exercise: "18時間で東京から静岡まで長距離ウォーキング" },
+  { calories: 9000, exercise: "18時間で東京から静岡までウォーキング" },
   {
     calories: 10000,
     exercise: "20時間で東京から名古屋までサイクリング",
   },
   { calories: 11000, exercise: "22時間で富士五湖一周ランニング" },
   { calories: 12000, exercise: "24時間で東京から長野まで山岳マラソン" },
-  { calories: 13000, exercise: "26時間で東海道五十三次部分ウォーキング" },
+  { calories: 13000, exercise: "26時間で東海道五十三次ウォーキング" },
   {
     calories: 14000,
     exercise: "28時間で東京から金沢までサイクリング",
@@ -65,8 +65,8 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
     calories: 15000,
     exercise: "30時間で東京から大阪まで新幹線並走ランニング",
   },
-  { calories: 16000, exercise: "32時間で四国一周部分ウォーキング" },
-  { calories: 17000, exercise: "34時間で本州横断部分ウルトラマラソン" },
+  { calories: 16000, exercise: "32時間で四国一周ウォーキング" },
+  { calories: 17000, exercise: "34時間で本州横断ウルトラマラソン" },
   {
     calories: 18000,
     exercise: "36時間で東京から広島までサイクリング",
@@ -83,7 +83,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   { calories: 22000, exercise: "44時間で沖縄本島一周マラソン" },
   {
     calories: 23000,
-    exercise: "46時間で青森から鹿児島までの本州縦断部分ランニング",
+    exercise: "46時間で青森から鹿児島までの本州縦断ランニング",
   },
   { calories: 24000, exercise: "48時間で日本アルプス全山脈縦走ハイキング" },
   {
@@ -91,7 +91,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
     exercise: "50時間で東京から那覇まで日本縦断ウルトラマラソン",
   },
   { calories: 26000, exercise: "52時間で北海道から九州までの自転車日本縦断" },
-  { calories: 27000, exercise: "54時間で日本百名山部分登頂チャレンジ" },
+  { calories: 27000, exercise: "54時間で日本百名山登頂チャレンジ" },
   { calories: 28000, exercise: "56時間で日本海沿岸サイクリング" },
   { calories: 29000, exercise: "58時間で太平洋沿岸ウルトラマラソン" },
   { calories: 30000, exercise: "60時間で四国八十八箇所巡礼ウォーキング" },
@@ -119,7 +119,7 @@ export const EXERCISE_EQUIVALENTS: ExerciseEquivalent[] = [
   },
   {
     calories: 41000,
-    exercise: "82時間で日本の離島100島を巡る船旅と各島でのジョギング",
+    exercise: "82時間で日本の離島100島を巡るスイミングとジョギング",
   },
   { calories: 42000, exercise: "84時間で日本全国の世界遺産を巡る文化マラソン" },
   {
