@@ -13,7 +13,6 @@ function App() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  // 新しい状態変数を追加してゲームのリセットを制御
   const [gameKey, setGameKey] = useState<number>(0);
 
   const {
@@ -23,6 +22,7 @@ function App() {
     playGameOver,
     playPlateShoot,
     playCollision,
+    playFinish, // playFinish関数を取得
     toggleMute,
   } = useAudio();
 
@@ -35,14 +35,14 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
-    resetGame, // useGameLoopから新しい関数をインポート
+    resetGame,
   } = useGameLoop(
     setGameOver,
     setScore,
     playPlateShoot,
     playCollision,
     gameSize,
-    gameKey // gameKeyを引数として渡す
+    gameKey
   );
 
   useEffect(() => {
@@ -98,6 +98,7 @@ function App() {
         totalCalories={totalCalories}
         onRestart={handleRestart}
         playGameOver={playGameOver}
+        playFinish={playFinish} // 新しいpropsを追加
       />
     );
   }

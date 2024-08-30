@@ -26,6 +26,7 @@ function useAudio() {
       gameOver: "/game_over.mp3",
       plateShoot: "/plate_shoot.mp3",
       collision: "/collision.mp3",
+      finish: "/finish.mp3", // 新しい音源を追加
     };
 
     // 音声ファイルの読み込みと解読
@@ -121,6 +122,9 @@ function useAudio() {
   );
   const playCollision = useCallback(() => playSound("collision"), [playSound]);
 
+  // 新しい音源再生関数を追加
+  const playFinish = useCallback(() => playSound("finish"), [playSound]);
+
   // 外部から使用する関数とステートを返す
   return {
     isLoaded,
@@ -129,6 +133,7 @@ function useAudio() {
     playGameOver,
     playPlateShoot,
     playCollision,
+    playFinish, // 新しい関数を追加
     setVolume,
     toggleMute,
     isMuted,

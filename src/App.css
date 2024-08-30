@@ -184,9 +184,9 @@ input:checked + .slider:before {
 }
 
 /* ゲームオーバー画面のボタンスタイリング */
-.game-over button {
-  text-align: center;
-  margin-top: 20px;
+.game-over button.restart-button {
+  display: block;
+  margin: 20px auto 0;
   padding: 10px 20px;
   font-size: 20px;
   background-color: #49e4dd;
@@ -194,17 +194,16 @@ input:checked + .slider:before {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, opacity 0.5s, transform 0.5s;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s, transform 0.5s, background-color 0.3s;
 }
 
-.game-over button.visible {
+.game-over button.restart-button.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.game-over button:hover {
+.game-over button.restart-button:hover {
   background-color: #4788e8;
 }
