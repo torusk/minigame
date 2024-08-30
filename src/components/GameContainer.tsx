@@ -88,11 +88,13 @@ const GameContainer: React.FC<GameContainerProps> = ({
           秒
         </div>
       </div>
-      <GameArea
-        playerX={clampPlayerX(playerX)}
-        enemies={enemies}
-        plates={plates}
-      />
+      <div className="game-area-wrapper">
+        <GameArea
+          playerX={clampPlayerX(playerX)}
+          enemies={enemies}
+          plates={plates}
+        />
+      </div>
       <div className="game-controls">
         <ControlButtons
           onMoveLeft={() => onMovePlayer(-1)}

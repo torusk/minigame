@@ -20,22 +20,36 @@ html {
 /* ゲームコンテナのスタイリング */
 .game-container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #cccccc;
+  background-color: #e0e0e0;
+}
+
+/* ゲームエリアラッパーのスタイリング */
+.game-area-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ゲームヘッダーのスタイリング */
+.game-header {
+  background-color: #e0e0e0;
+  padding: 5px;
+  text-align: center;
 }
 
 /* ゲームエリアのスタイリング */
 .game-area {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  background-color: #ffffff;
-  margin: 0 auto;
   width: 100%;
+  height: 100%;
   max-width: 800px;
-  aspect-ratio: 16 / 9;
+  max-height: 90vh;
+  position: relative;
+  background-color: #ffffff;
 }
 
 /* ゲーム内の要素のスタイリング */
@@ -45,15 +59,11 @@ html {
   position: absolute;
 }
 
-/* ゲームコントロール部分のスタイリング */
+/* ゲームヘッダーとコントロールのスタイリング */
+.game-header,
 .game-controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  padding: 5px;
   background-color: #e0e0e0;
-  min-height: 100px;
 }
 
 .control-buttons {
@@ -73,13 +83,6 @@ html {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-/* ゲームヘッダーのスタイリング */
-.game-header {
-  background-color: #e0e0e0;
-  padding: 10px;
-  text-align: center;
 }
 
 .game-header-content {
@@ -104,6 +107,23 @@ html {
 
 .time.intense {
   color: #fb0606;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .game-area {
+    aspect-ratio: auto;
+    height: calc(100vh - 120px); /* ヘッダーとコントロールの高さを考慮 */
+  }
+
+  .game-header,
+  .game-controls {
+    padding: 5px;
+  }
+
+  .control-buttons button {
+    padding: 8px 16px;
+  }
 }
 
 /* 残りのスタイルは変更なし */

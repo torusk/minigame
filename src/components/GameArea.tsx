@@ -1,51 +1,55 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Player from "./Player";
 import Enemy from "./Enemy";
 import Plate from "./Plate";
 import { Enemy as EnemyType, Plate as PlateType } from "../types";
-import { PLAYER_WIDTH } from "../constants";
+import { PLAYER_WIDTH, ENEMY_SIZE, PLATE_SIZE } from "../constants";
 
-// GameAreaProps: このコンポーネントのプロパティを定義
 interface GameAreaProps {
-  playerX: number; // プレイヤーのX座標
-  enemies: EnemyType[]; // 敵の配列
-  plates: PlateType[]; // 皿の配列
+  playerX: number;
+  enemies: EnemyType[];
+  plates: PlateType[];
 }
 
 const GameArea: React.FC<GameAreaProps> = ({ playerX, enemies, plates }) => {
-  // ゲームエリアへの参照 - サイズ計算に使用
-  const gameAreaRef = React.useRef<HTMLDivElement>(null);
+  const gameAreaRef = useRef<HTMLDivElement>(null);
+  const [areaSize, setAreaSize] = useState({ width: 0, height: 0 });
 
-  // プレイヤーのX座標をゲームエリア内に制限する関数
-  // 注: この関数は画面サイズが変更された場合にも正しく動作するはずですが、
-  // レスポンシブデザインを実装する際は、ここの計算ロジックを確認してください
-  const clampPlayerX = (x: number): number => {
-    if (!gameAreaRef.current) return x;
-    const gameAreaWidth = gameAreaRef.current.clientWidth;
-    return Math.max(0, Math.min(x, gameAreaWidth - PLAYER_WIDTH));
-  };
+  useEffect(() => {
+    const updateSize = () => {
+      if (gameAreaRef.current) {
+        setAreaSize({
+          width: gameAreaRef.current.clientWidth,
+          height: gameAreaRef.current.clientHeight,
+        });
+      }
+    };
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  const clampPosition = (x: number, y: number, size: number) => ({
+    x: Math.max(0, Math.min(x, areaSize.width - size)),
+    y: Math.max(0, Math.min(y, areaSize.height - size)),
+  });
 
   return (
-    // ゲームエリア
-    // 注: クラス名 "game-area" のスタイルを調整することで、ゲームエリアのサイズや外観を変更できます
     <div className="game-area" ref={gameAreaRef}>
-      {/* プレイヤー - X座標を制限して配置 */}
-      <Player x={clampPlayerX(playerX)} />
+      <Player
+        x={Math.max(0, Math.min(playerX, areaSize.width - PLAYER_WIDTH))}
+      />
 
-      {/* 敵 - 配列内の各敵を描画 */}
-      {enemies.map((enemy, index) => (
-        <Enemy
-          key={`enemy-${index}`}
-          x={enemy.x}
-          y={enemy.y}
-          type={enemy.type}
-        />
-      ))}
+      {enemies.map((enemy, index) => {
+        const { x, y } = clampPosition(enemy.x, enemy.y, ENEMY_SIZE);
+        return <Enemy key={`enemy-${index}`} x={x} y={y} type={enemy.type} />;
+      })}
 
-      {/* 皿 - 配列内の各皿を描画 */}
-      {plates.map((plate, index) => (
-        <Plate key={`plate-${index}`} x={plate.x} y={plate.y} />
-      ))}
+      {plates.map((plate, index) => {
+        const { x, y } = clampPosition(plate.x, plate.y, PLATE_SIZE);
+        return <Plate key={`plate-${index}`} x={x} y={y} />;
+      })}
     </div>
   );
 };

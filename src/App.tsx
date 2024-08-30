@@ -65,7 +65,7 @@ function App() {
   const handleResize = useCallback(() => {
     setGameSize({
       width: window.innerWidth,
-      height: window.innerHeight - 100,
+      height: window.innerHeight, // -100を削除
     });
   }, []);
 
