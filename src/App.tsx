@@ -13,6 +13,8 @@ function App() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  // 新しい状態変数を追加してゲームのリセットを制御
+  const [gameKey, setGameKey] = useState<number>(0);
 
   const {
     isLoaded,
@@ -33,12 +35,14 @@ function App() {
     movePlayer,
     stopPlayer,
     shootPlate,
+    resetGame, // useGameLoopから新しい関数をインポート
   } = useGameLoop(
     setGameOver,
     setScore,
     playPlateShoot,
     playCollision,
-    gameSize
+    gameSize,
+    gameKey // gameKeyを引数として渡す
   );
 
   useEffect(() => {
@@ -80,11 +84,12 @@ function App() {
   const handleRestart = useCallback(() => {
     setGameOver(false);
     setScore(0);
-    // 他の必要なステートのリセット
+    resetGame(); // ゲームループ内の状態をリセット
+    setGameKey((prevKey) => prevKey + 1); // gameKeyを更新してコンポーネントを強制的に再マウント
     if (!isMuted) {
       playBgm();
     }
-  }, [isMuted, playBgm]);
+  }, [isMuted, playBgm, resetGame]);
 
   if (gameOver) {
     return (
@@ -99,6 +104,7 @@ function App() {
 
   return (
     <GameContainer
+      key={gameKey} // keyプロパティを追加してコンポーネントを強制的に再マウント
       width={gameSize.width}
       height={gameSize.height}
       playerX={playerX}

@@ -17,7 +17,8 @@ function useGameLoop(
   setScore: React.Dispatch<React.SetStateAction<number>>,
   playPlateShoot: () => void,
   playCollision: () => void,
-  gameSize: { width: number; height: number }
+  gameSize: { width: number; height: number },
+  gameKey: number
 ) {
   const playerXRef = useRef<number>(gameSize.width / 2 - PLAYER_WIDTH / 2);
   const [playerX, setPlayerX] = useState<number>(playerXRef.current);
@@ -28,6 +29,25 @@ function useGameLoop(
   const [totalCalories, setTotalCalories] = useState<number>(0);
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
   const [gamePhase, setGamePhase] = useState<"normal" | "intense">("normal");
+
+  const resetGame = useCallback(() => {
+    playerXRef.current = gameSize.width / 2 - PLAYER_WIDTH / 2;
+    setPlayerX(playerXRef.current);
+    playerVelocityRef.current = 0;
+    setEnemies([]);
+    setPlates([]);
+    setTimeLeft(GAME_DURATION);
+    setTotalCalories(0);
+    setIsGameActive(true);
+    setGamePhase("normal");
+    setScore(0);
+    setGameOver(false);
+  }, [gameSize.width, setScore, setGameOver]);
+
+  // gameKeyが変更されたときにゲームをリセット
+  useEffect(() => {
+    resetGame();
+  }, [gameKey, resetGame]);
 
   const movePlayer = useCallback((direction: number) => {
     playerVelocityRef.current = direction * 5;
@@ -61,6 +81,7 @@ function useGameLoop(
     setPlayerX(newX);
   }, [gameSize.width]);
 
+  // メインゲームループ
   useEffect(() => {
     const gameLoop = setInterval(() => {
       if (!isGameActive) return;
@@ -133,6 +154,7 @@ function useGameLoop(
     gamePhase,
   ]);
 
+  // 敵のスポーン
   useEffect(() => {
     const spawnEnemy = () => {
       if (!isGameActive) return;
@@ -164,6 +186,7 @@ function useGameLoop(
     stopPlayer,
     shootPlate,
     gamePhase,
+    resetGame,
   };
 }
 
