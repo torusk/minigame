@@ -44,7 +44,6 @@ function useGameLoop(
     setGameOver(false);
   }, [gameSize.width, setScore, setGameOver]);
 
-  // gameKeyが変更されたときにゲームをリセット
   useEffect(() => {
     resetGame();
   }, [gameKey, resetGame]);
@@ -88,17 +87,19 @@ function useGameLoop(
 
       updatePlayerPosition();
 
+      // 変更: 敵の位置をゲームエリア内に制限
       setEnemies((prevEnemies) =>
         prevEnemies.filter((enemy) => {
           enemy.y += 2;
-          return enemy.y < gameSize.height;
+          return enemy.y < gameSize.height - ENEMY_SIZE; // 変更: 敵がゲームエリアの下端を超えないように
         })
       );
 
+      // 変更: プレートの位置をゲームエリア内に制限
       setPlates((prevPlates) =>
         prevPlates.filter((plate) => {
           plate.y -= 5;
-          return plate.y > -PLATE_SIZE;
+          return plate.y > 0; // 変更: プレートがゲームエリアの上端を超えないように
         })
       );
 
