@@ -27,8 +27,8 @@ const GameOver: React.FC<GameOverProps> = ({
   };
 
   const lines = [
-    `🍽️${score}品GET🍽️`,
-    `🔥計${totalCalories}カロリー🔥`,
+    `🍽️${score}品、計${totalCalories}kal🍽️`,
+    `${Math.round(totalCalories / 2000)}日分のエネルギー🔥`,
     "これを消費するには",
     `🏃‍♀️${removeOccurrences(exerciseEquivalent)}をすればOK🏃‍♂️`,
   ];
