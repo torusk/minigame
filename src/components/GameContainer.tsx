@@ -5,8 +5,8 @@ import { Enemy, Plate } from "../types";
 import { PLAYER_WIDTH } from "../constants";
 
 interface GameContainerProps {
-  width: number; // Add this line
-  height: number; // Add this line
+  width: number;
+  height: number;
   playerX: number;
   enemies: Enemy[];
   plates: Plate[];
@@ -16,11 +16,12 @@ interface GameContainerProps {
   onShootPlate: () => void;
   toggleMute: () => void;
   isMuted: boolean;
+  gamePhase: "normal" | "intense";
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
-  width, // Add this line
-  height, // Add this line
+  width,
+  height,
   playerX,
   enemies,
   plates,
@@ -30,6 +31,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
   onShootPlate,
   toggleMute,
   isMuted,
+  gamePhase,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -75,8 +77,16 @@ const GameContainer: React.FC<GameContainerProps> = ({
       className="game-container"
       data-testid="game-container"
       ref={containerRef}
-      style={{ width, height }} // Add this line
+      style={{ width, height }}
     >
+      <div className="game-header">
+        <div className="game-header-content">
+          <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
+          <span className={`time ${gamePhase === "intense" ? "intense" : ""}`}>
+            のこり{Math.ceil(timeLeft)}秒
+          </span>
+        </div>
+      </div>
       <GameArea
         playerX={clampPlayerX(playerX)}
         enemies={enemies}
@@ -88,9 +98,6 @@ const GameContainer: React.FC<GameContainerProps> = ({
           onMoveRight={() => onMovePlayer(1)}
           onStopMove={onStopPlayer}
           onShootPlate={onShootPlate}
-          toggleMute={toggleMute}
-          isMuted={isMuted}
-          timeLeft={timeLeft}
         />
       </div>
     </div>

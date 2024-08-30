@@ -22,7 +22,7 @@ function App() {
     playGameOver,
     playPlateShoot,
     playCollision,
-    playFinish, // playFinish関数を取得
+    playFinish,
     toggleMute,
   } = useAudio();
 
@@ -36,6 +36,7 @@ function App() {
     stopPlayer,
     shootPlate,
     resetGame,
+    gamePhase, // Add this line to get gamePhase from useGameLoop
   } = useGameLoop(
     setGameOver,
     setScore,
@@ -84,8 +85,8 @@ function App() {
   const handleRestart = useCallback(() => {
     setGameOver(false);
     setScore(0);
-    resetGame(); // ゲームループ内の状態をリセット
-    setGameKey((prevKey) => prevKey + 1); // gameKeyを更新してコンポーネントを強制的に再マウント
+    resetGame();
+    setGameKey((prevKey) => prevKey + 1);
     if (!isMuted) {
       playBgm();
     }
@@ -98,14 +99,14 @@ function App() {
         totalCalories={totalCalories}
         onRestart={handleRestart}
         playGameOver={playGameOver}
-        playFinish={playFinish} // 新しいpropsを追加
+        playFinish={playFinish}
       />
     );
   }
 
   return (
     <GameContainer
-      key={gameKey} // keyプロパティを追加してコンポーネントを強制的に再マウント
+      key={gameKey}
       width={gameSize.width}
       height={gameSize.height}
       playerX={playerX}
@@ -117,6 +118,7 @@ function App() {
       onShootPlate={shootPlate}
       toggleMute={handleToggleMute}
       isMuted={isMuted}
+      gamePhase={gamePhase} // Add this line to pass gamePhase to GameContainer
     />
   );
 }

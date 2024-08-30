@@ -5,9 +5,6 @@ interface ControlButtonsProps {
   onMoveRight: () => void;
   onStopMove: () => void;
   onShootPlate: () => void;
-  toggleMute: () => void;
-  isMuted: boolean;
-  timeLeft: number;
 }
 
 const ControlButtons: React.FC<ControlButtonsProps> = ({
@@ -15,13 +12,9 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
   onMoveRight,
   onStopMove,
   onShootPlate,
-  toggleMute,
-  isMuted,
-  timeLeft,
 }) => {
   return (
     <div className="control-buttons">
-      <button onClick={toggleMute}>{isMuted ? "🔇" : "🔊"}</button>
       <button
         onTouchStart={onMoveLeft}
         onMouseDown={onMoveLeft}
@@ -43,7 +36,6 @@ const ControlButtons: React.FC<ControlButtonsProps> = ({
       >
         ➡️
       </button>
-      <span className="time">のこり{Math.ceil(timeLeft)}秒</span>
     </div>
   );
 };

@@ -75,11 +75,40 @@ html {
   transition: background-color 0.3s;
 }
 
+/* ... 既存のスタイル ... */
+
+/* ゲームヘッダーのスタイリング */
+.game-header {
+  background-color: #e0e0e0;
+  padding: 10px;
+  text-align: center;
+}
+
+.game-header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.game-header button {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .time {
   font-size: clamp(24px, 6vw, 36px);
   color: #030303;
   font-weight: bold;
 }
+
+.time.intense {
+  color: #fb0606;
+}
+
+/* ... 残りのスタイル ... */
 
 /* 残りのスタイルは変更なし */
 
