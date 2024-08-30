@@ -146,6 +146,9 @@ input:checked + .slider:before {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: "Yusei Magic", sans-serif; /* 筆文字フォントを適用 */
+  max-width: 90%; /* 最大幅を設定 */
+  width: 400px; /* デフォルトの幅を設定 */
 }
 
 .game-over p {
@@ -155,18 +158,15 @@ input:checked + .slider:before {
   transition: opacity 0.5s, transform 0.5s;
 }
 
-.game-over p.visible {
+.game-over .line-0.visible,
+.game-over .line-1.visible,
+.game-over .line-2.visible,
+.game-over .line-3.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ゲームオーバー画面の各行のスタイリング */
-.game-over .line-0 {
-  font-size: 34px;
-  color: #030303;
-  font-weight: bold;
-}
-
+.game-over .line-0,
 .game-over .line-1 {
   font-size: 34px;
   color: #030303;
@@ -174,7 +174,7 @@ input:checked + .slider:before {
 }
 
 .game-over .line-2 {
-  font-size: 20px;
+  font-size: 24px;
   color: #030303;
 }
 
@@ -207,7 +207,7 @@ input:checked + .slider:before {
 }
 
 .game-over button.restart-button {
-  background-color: #49e4dd;
+  background-color: red;
 }
 
 .game-over button.share-button {

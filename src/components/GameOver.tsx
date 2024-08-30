@@ -89,10 +89,10 @@ const GameOver: React.FC<GameOverProps> = ({
       {showButton && (
         <div className="game-over-buttons">
           <button onClick={onRestart} className="visible restart-button">
-            もう一度あそぶ
+            もういちどあそぶ
           </button>
           <button onClick={shareOnTwitter} className="visible share-button">
-            Xで共有
+            X(旧Twitter)で共有
           </button>
         </div>
       )}
