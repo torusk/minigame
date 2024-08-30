@@ -5,6 +5,8 @@ import { Enemy, Plate } from "../types";
 import { PLAYER_WIDTH } from "../constants";
 
 interface GameContainerProps {
+  width: number; // Add this line
+  height: number; // Add this line
   playerX: number;
   enemies: Enemy[];
   plates: Plate[];
@@ -17,6 +19,8 @@ interface GameContainerProps {
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
+  width, // Add this line
+  height, // Add this line
   playerX,
   enemies,
   plates,
@@ -71,6 +75,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
       className="game-container"
       data-testid="game-container"
       ref={containerRef}
+      style={{ width, height }} // Add this line
     >
       <GameArea
         playerX={clampPlayerX(playerX)}
