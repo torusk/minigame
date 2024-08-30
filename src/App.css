@@ -184,12 +184,19 @@ input:checked + .slider:before {
 }
 
 /* ゲームオーバー画面のボタンスタイリング */
-.game-over button.restart-button {
-  display: block;
-  margin: 20px auto 0;
+/* ... 既存のスタイル ... */
+
+.game-over-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.game-over button.restart-button,
+.game-over button.share-button {
   padding: 10px 20px;
-  font-size: 20px;
-  background-color: #49e4dd;
+  font-size: 16px;
   color: white;
   border: none;
   border-radius: 5px;
@@ -199,11 +206,21 @@ input:checked + .slider:before {
   transform: translateY(20px);
 }
 
-.game-over button.restart-button.visible {
-  opacity: 1;
-  transform: translateY(0);
+.game-over button.restart-button {
+  background-color: #49e4dd;
 }
 
-.game-over button.restart-button:hover {
-  background-color: #4788e8;
+.game-over button.share-button {
+  background-color: #1da1f2;
+}
+
+.game-over button.restart-button:hover,
+.game-over button.share-button:hover {
+  opacity: 0.8;
+}
+
+.game-over button.restart-button.visible,
+.game-over button.share-button.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

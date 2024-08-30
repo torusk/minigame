@@ -62,6 +62,20 @@ const GameOver: React.FC<GameOverProps> = ({
     }
   }, [currentLine, playGameOver, playFinish]);
 
+  const shareOnTwitter = () => {
+    const text = `スイーツミニゲームで${score}品GET！計${totalCalories}カロリー消費には${removeOccurrences(
+      exerciseEquivalent
+    )}が必要！`;
+    const url = "sweets-minigame.web.app"; // ゲームのURLに置き換えてください
+    const hashtags = "スイーツミニゲーム,カロリー消費";
+
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      text
+    )}&url=${encodeURIComponent(url)}&hashtags=${encodeURIComponent(hashtags)}`;
+
+    window.open(twitterUrl, "_blank");
+  };
+
   return (
     <div className="game-over">
       {lines.map((line, index) => (
@@ -73,9 +87,14 @@ const GameOver: React.FC<GameOverProps> = ({
         </p>
       ))}
       {showButton && (
-        <button onClick={onRestart} className="visible restart-button">
-          もう一度あそぶ
-        </button>
+        <div className="game-over-buttons">
+          <button onClick={onRestart} className="visible restart-button">
+            もう一度あそぶ
+          </button>
+          <button onClick={shareOnTwitter} className="visible share-button">
+            Xで共有
+          </button>
+        </div>
       )}
     </div>
   );
